@@ -106,4 +106,60 @@ export const appRoutes: Route[] = [
         '@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-alt-text'
       ).then((m) => m.demoPagesAngularEslintAccessibilityAltTextRoutes),
   },
+  {
+    path: 'testing-library/events/user-event',
+    loadChildren: () =>
+      import(
+        '@nx-a11y-workspace/demo-pages/testing-library/events/user-event'
+      ).then((m) => m.demoPagesTestingLibraryEventsUserEventRoutes),
+  },
+  {
+    path: 'testing-library/events/fire-event',
+    loadChildren: () =>
+      import(
+        '@nx-a11y-workspace/demo-pages/testing-library/events/fire-event'
+      ).then((m) => m.demoPagesTestingLibraryEventsFireEventRoutes),
+  },
+  {
+    path: 'testing-library/query/get-by-alt-text',
+    loadChildren: () =>
+      import(
+        '@nx-a11y-workspace/demo-pages/testing-library/query/get-by-alt-text'
+      ).then((m) => m.demoPagesTestingLibraryQueryGetByAltTextRoutes),
+  },
+  {
+    path: 'testing-library/query/get-by-text',
+    loadChildren: () =>
+      import(
+        '@nx-a11y-workspace/demo-pages/testing-library/query/get-by-text'
+      ).then((m) => m.demoPagesTestingLibraryQueryGetByTextRoutes),
+  },
+  {
+    path: 'testing-library/query/get-by-placeholder-text',
+    loadChildren: () =>
+      import(
+        '@nx-a11y-workspace/demo-pages/testing-library/query/get-by-placeholder-text'
+      ).then((m) => m.demoPagesTestingLibraryQueryGetByPlaceholderTextRoutes),
+  },
+  {
+    path: 'testing-library/query/get-by-display-value',
+    loadChildren: () =>
+      import(
+        '@nx-a11y-workspace/demo-pages/testing-library/query/get-by-display-value'
+      ).then((m) => m.demoPagesTestingLibraryQueryGetByDisplayValueRoutes),
+  },
+  {
+    path: 'testing-library/query/get-by-role',
+    loadChildren: () =>
+      import(
+        '@nx-a11y-workspace/demo-pages/testing-library/query/get-by-role'
+      ).then((m) => m.demoPagesTestingLibraryQueryGetByRoleRoutes),
+  },
+  {
+    path: 'testing-library/query/get-by-label-text',
+    loadChildren: () =>
+      import(
+        '@nx-a11y-workspace/demo-pages/testing-library/query/get-by-label-text'
+      ).then((m) => m.demoPagesTestingLibraryQueryGetByLabelTextRoutes),
+  },
 ];

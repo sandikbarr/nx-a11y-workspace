@@ -63,6 +63,30 @@
       ],
       "@nx-a11y-workspace/demo-pages/angular-eslint/no-positive-tabindex": [
         "libs/demo-pages/angular-eslint/no-positive-tabindex/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/testing-library/events/fire-event": [
+        "libs/demo-pages/testing-library/events/fire-event/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/testing-library/events/user-event": [
+        "libs/demo-pages/testing-library/events/user-event/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-alt-text": [
+        "libs/demo-pages/testing-library/query/get-by-alt-text/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-display-value": [
+        "libs/demo-pages/testing-library/query/get-by-display-value/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-label-text": [
+        "libs/demo-pages/testing-library/query/get-by-label-text/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-placeholder-text": [
+        "libs/demo-pages/testing-library/query/get-by-placeholder-text/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-role": [
+        "libs/demo-pages/testing-library/query/get-by-role/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-text": [
+        "libs/demo-pages/testing-library/query/get-by-text/src/index.ts"
       ]
     }
   },
