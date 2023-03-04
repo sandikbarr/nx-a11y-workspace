@@ -14,7 +14,57 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@a11y/ui-components": ["libs/shared/ui-components/index.ts"],
+      "@a11y/ui-components/form/checkbox": [
+        "libs/shared/ui-components/form/checkbox/index.ts"
+      ],
+      "@a11y/ui-components/form/input": [
+        "libs/shared/ui-components/form/input/index.ts"
+      ],
+      "@a11y/ui-components/primary-nav": [
+        "libs/shared/ui-components/primary-nav/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-alt-text": [
+        "libs/demo-pages/angular-eslint/accessibility-alt-text/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-elements-content": [
+        "libs/demo-pages/angular-eslint/accessibility-elements-content/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-interactive-supports-focus": [
+        "libs/demo-pages/angular-eslint/accessibility-interactive-supports-focus/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-label-has-associated-control": [
+        "libs/demo-pages/angular-eslint/accessibility-label-has-associated-control/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-role-has-required-aria": [
+        "libs/demo-pages/angular-eslint/accessibility-role-has-required-aria/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-table-scope": [
+        "libs/demo-pages/angular-eslint/accessibility-table-scope/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-valid-aria": [
+        "libs/demo-pages/angular-eslint/accessibility-valid-aria/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/button-has-type": [
+        "libs/demo-pages/angular-eslint/button-has-type/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/click-events-have-key-events": [
+        "libs/demo-pages/angular-eslint/click-events-have-key-events/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/mouse-events-have-key-events": [
+        "libs/demo-pages/angular-eslint/mouse-events-have-key-events/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/no-autofocus": [
+        "libs/demo-pages/angular-eslint/no-autofocus/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/no-distracting-elements": [
+        "libs/demo-pages/angular-eslint/no-distracting-elements/src/index.ts"
+      ],
+      "@nx-a11y-workspace/demo-pages/angular-eslint/no-positive-tabindex": [
+        "libs/demo-pages/angular-eslint/no-positive-tabindex/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

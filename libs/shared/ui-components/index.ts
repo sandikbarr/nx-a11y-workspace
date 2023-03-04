@@ -1,0 +1,1 @@
+export const A11Y_UI_COMPONENTS = '@a11y/ui-components';
