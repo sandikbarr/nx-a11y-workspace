@@ -9,7 +9,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "nxA11yWorkspace",
+            "prefix": "a11y",
             "style": "camelCase"
           }
         ],
@@ -17,7 +17,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "nx-a11y-workspace",
+            "prefix": "a11y",
             "style": "kebab-case"
           }
         ]
