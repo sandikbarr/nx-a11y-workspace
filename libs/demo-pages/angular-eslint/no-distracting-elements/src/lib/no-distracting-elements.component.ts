@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   standalone: true,
   imports: [CommonModule],
-  template: ` <p>no-distracting-elements works!</p> `,
+  template: ` <h1>no-distracting-elements works!</h1> `,
   styles: [],
 })
 export class NoDistractingElementsComponent {}

@@ -1,9 +1,8 @@
-import { getGreeting } from '../support/app.po';
 import 'cypress-axe';
 
-describe('nx-a11y', () => {
+describe('demo-pages/angular-eslint/no-autofocus', () => {
   it('page is accessible', () => {
-    cy.visit('/');
+    cy.visit('/angular-eslint/no-autofocus');
 
     cy.injectAxe();
     cy.checkA11y();

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   standalone: true,
   imports: [CommonModule],
-  template: ` <p>accessibility-interactive-supports-focus works!</p> `,
+  template: ` <h1>accessibility-interactive-supports-focus works!</h1> `,
   styles: [],
 })
 export class AccessibilityInteractiveSupportsFocusComponent {}

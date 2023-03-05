@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   standalone: true,
   imports: [CommonModule],
-  template: ` <p>accessibility-label-has-associated-control works!</p> `,
+  template: ` <h1>accessibility-label-has-associated-control works!</h1> `,
   styles: [],
 })
 export class AccessibilityLabelHasAssociatedControlComponent {}
