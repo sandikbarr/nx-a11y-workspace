@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   standalone: true,
   imports: [CommonModule],
-  template: ` <p>accessibility-alt-text works!</p> `,
+  template: `<h1>accessibility-alt-text</h1> `,
   styles: [],
 })
 export class AccessibilityAltTextComponent {}

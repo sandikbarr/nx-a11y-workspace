@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   standalone: true,
   imports: [CommonModule],
-  template: ` <p>click-events-have-key-events works!</p> `,
+  template: ` <h1>click-events-have-key-events works!</h1> `,
   styles: [],
 })
 export class ClickEventsHaveKeyEventsComponent {}
