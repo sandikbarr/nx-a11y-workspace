@@ -4,6 +4,7 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   Output,
   QueryList,
@@ -81,6 +82,7 @@ export class PrimaryNavMenuComponent {
   @Input() expanded?: boolean;
   @Input() items?: NavItem[];
   @Output() focusMenuButton = new EventEmitter();
+  @Output() closeMenu = new EventEmitter<number>();
   @ViewChildren(MenuItemDirective) menuItems?: QueryList<MenuItemDirective>;
 
   public focusFirstLink() {
@@ -119,6 +121,14 @@ export class PrimaryNavMenuComponent {
         event.preventDefault();
         this.menuItems?.get(this.menuItems?.length - 1)?.focus();
         break;
+    }
+  }
+
+  @HostListener('keydown', ['$event'])
+  handleEscapeToClose(event: KeyboardEvent): void {
+    if (this.expanded && event.code === 'Escape') {
+      this.closeMenu.emit();
+      this.focusMenuButton.emit();
     }
   }
 }

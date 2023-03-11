@@ -74,6 +74,7 @@ class PrimaryNavButtonLinkDirective {
               [expanded]="isMenuExpanded(i)"
               [items]="nav.items"
               (focusMenuButton)="focusMenuButton(i)"
+              (closeMenu)="closeMenu(i)"
             ></a11y-primary-nav-menu>
           </ng-template>
         </li>
@@ -215,5 +216,11 @@ export class PrimaryNavComponent {
    */
   focusMenuButton(index: number) {
     this.navButtonLinks?.get(index)?.focus();
+  }
+
+  closeMenu(index: number) {
+    if (this.expandedMenuIndex === index) {
+      this.expandedMenuIndex = -1;
+    }
   }
 }

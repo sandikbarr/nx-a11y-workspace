@@ -377,5 +377,14 @@ describe('PrimaryNavComponent', () => {
       await userEvent.keyboard('[Enter]');
       waitFor(() => expect(location.path()).toBe('/tab-one/page-one'));
     });
+
+    it('Escape key closes menu and returns focus to menu button', async () => {
+      const { navMenuButton, items } = await setup();
+      const firstMenuItem = screen.getAllByText(items[0].label)[0];
+      firstMenuItem.focus();
+      await userEvent.keyboard('[Escape]');
+      expect(navMenuButton).toHaveAttribute('aria-expanded', "false");
+      expect(navMenuButton).toHaveFocus();
+    })
   });
 });
