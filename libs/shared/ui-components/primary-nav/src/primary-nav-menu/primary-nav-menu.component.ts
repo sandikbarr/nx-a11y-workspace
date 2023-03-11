@@ -35,7 +35,7 @@ class MenuItemDirective {
   standalone: true,
   imports: [CommonModule, RouterModule, MenuItemDirective],
   template: `
-    <ul [attr.id]="id" [class.expanded]="expanded">
+    <ul role="menu" [attr.id]="id" [class.expanded]="expanded">
       <li *ngFor="let item of items; let i = index">
         <a
           menu-item

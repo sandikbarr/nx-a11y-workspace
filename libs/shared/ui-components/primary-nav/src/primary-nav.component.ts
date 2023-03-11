@@ -62,6 +62,7 @@ class PrimaryNavButtonLinkDirective {
               primary-nav
               type="button"
               [attr.aria-expanded]="isMenuExpanded(i)"
+              [attr.aria-haspopup]="'menu'"
               [attr.aria-controls]="nav.id"
               (click)="onMenuButtonClick(i)"
               (keydown)="onMenuButtonKey($event, nav, i)"
