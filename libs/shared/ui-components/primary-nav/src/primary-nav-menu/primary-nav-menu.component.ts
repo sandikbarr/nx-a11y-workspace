@@ -37,9 +37,10 @@ class MenuItemDirective {
   standalone: true,
   imports: [CommonModule, RouterModule, MenuItemDirective],
   template: `
-    <ul [attr.id]="id" [class.expanded]="expanded">
+    <ul role="menu" [class.expanded]="expanded">
       <li *ngFor="let item of items; let i = index">
         <a
+          role="menuitem"
           menu-item
           [routerLink]="item.routerLink"
           (keydown)="controlFocusByKey($event, i)"
@@ -88,9 +89,6 @@ export class PrimaryNavMenuComponent {
   @Output() focusMenuButton = new EventEmitter();
   @Output() closeMenu = new EventEmitter();
   @ViewChildren(MenuItemDirective) menuItems?: QueryList<MenuItemDirective>;
-
-  @HostBinding('role')
-  role = 'menu';
 
   public focusFirstLink() {
     this.menuItems?.first.focus();
