@@ -25,68 +25,11 @@
       "@a11y/ui-components/primary-nav": [
         "libs/shared/ui-components/primary-nav/index.ts"
       ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-alt-text": [
-        "libs/demo-pages/angular-eslint/accessibility-alt-text/src/index.ts"
+      "@nx-a11y-workspace/nx-a11y-demo/angular-eslint": [
+        "libs/nx-a11y-demo/angular-eslint/src/index.ts"
       ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-elements-content": [
-        "libs/demo-pages/angular-eslint/accessibility-elements-content/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-interactive-supports-focus": [
-        "libs/demo-pages/angular-eslint/accessibility-interactive-supports-focus/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-label-has-associated-control": [
-        "libs/demo-pages/angular-eslint/accessibility-label-has-associated-control/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-role-has-required-aria": [
-        "libs/demo-pages/angular-eslint/accessibility-role-has-required-aria/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-table-scope": [
-        "libs/demo-pages/angular-eslint/accessibility-table-scope/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/accessibility-valid-aria": [
-        "libs/demo-pages/angular-eslint/accessibility-valid-aria/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/button-has-type": [
-        "libs/demo-pages/angular-eslint/button-has-type/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/click-events-have-key-events": [
-        "libs/demo-pages/angular-eslint/click-events-have-key-events/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/mouse-events-have-key-events": [
-        "libs/demo-pages/angular-eslint/mouse-events-have-key-events/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/no-autofocus": [
-        "libs/demo-pages/angular-eslint/no-autofocus/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/no-distracting-elements": [
-        "libs/demo-pages/angular-eslint/no-distracting-elements/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/angular-eslint/no-positive-tabindex": [
-        "libs/demo-pages/angular-eslint/no-positive-tabindex/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/testing-library/events/fire-event": [
-        "libs/demo-pages/testing-library/events/fire-event/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/testing-library/events/user-event": [
-        "libs/demo-pages/testing-library/events/user-event/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-alt-text": [
-        "libs/demo-pages/testing-library/query/get-by-alt-text/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-display-value": [
-        "libs/demo-pages/testing-library/query/get-by-display-value/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-label-text": [
-        "libs/demo-pages/testing-library/query/get-by-label-text/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-placeholder-text": [
-        "libs/demo-pages/testing-library/query/get-by-placeholder-text/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-role": [
-        "libs/demo-pages/testing-library/query/get-by-role/src/index.ts"
-      ],
-      "@nx-a11y-workspace/demo-pages/testing-library/query/get-by-text": [
-        "libs/demo-pages/testing-library/query/get-by-text/src/index.ts"
+      "@nx-a11y-workspace/nx-a11y-demo/testing-library": [
+        "libs/nx-a11y-demo/testing-library/src/index.ts"
       ]
     }
   },

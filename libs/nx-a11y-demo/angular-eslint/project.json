@@ -1,0 +1,50 @@
+{
+  "name": "nx-a11y-demo-angular-eslint",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/nx-a11y-demo/angular-eslint/src",
+  "prefix": "nx-a11y-workspace",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:ng-packagr-lite",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/nx-a11y-demo/angular-eslint/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/nx-a11y-demo/angular-eslint/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/nx-a11y-demo/angular-eslint/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/nx-a11y-demo/angular-eslint/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/nx-a11y-demo/angular-eslint/**/*.ts",
+          "libs/nx-a11y-demo/angular-eslint/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
