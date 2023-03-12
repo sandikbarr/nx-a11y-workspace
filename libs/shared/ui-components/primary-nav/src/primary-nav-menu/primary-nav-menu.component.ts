@@ -4,6 +4,8 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
+  HostBinding,
+  HostListener,
   Input,
   Output,
   QueryList,
@@ -35,12 +37,14 @@ class MenuItemDirective {
   standalone: true,
   imports: [CommonModule, RouterModule, MenuItemDirective],
   template: `
-    <ul [attr.id]="id" [class.expanded]="expanded">
+    <ul role="menu" [class.expanded]="expanded">
       <li *ngFor="let item of items; let i = index">
         <a
+          role="menuitem"
           menu-item
           [routerLink]="item.routerLink"
           (keydown)="controlFocusByKey($event, i)"
+          (click)="closeMenu.emit()"
           >{{ item.label }}</a
         >
       </li>
@@ -71,6 +75,8 @@ class MenuItemDirective {
       a {
         text-decoration: none;
         color: inherit;
+        display: block;
+        width: 100%;
       }
     `,
   ],
@@ -81,6 +87,7 @@ export class PrimaryNavMenuComponent {
   @Input() expanded?: boolean;
   @Input() items?: NavItem[];
   @Output() focusMenuButton = new EventEmitter();
+  @Output() closeMenu = new EventEmitter();
   @ViewChildren(MenuItemDirective) menuItems?: QueryList<MenuItemDirective>;
 
   public focusFirstLink() {
@@ -119,6 +126,14 @@ export class PrimaryNavMenuComponent {
         event.preventDefault();
         this.menuItems?.get(this.menuItems?.length - 1)?.focus();
         break;
+    }
+  }
+
+  @HostListener('keydown', ['$event'])
+  handleEscapeToClose(event: KeyboardEvent): void {
+    if (this.expanded && event.code === 'Escape') {
+      this.closeMenu.emit();
+      this.focusMenuButton.emit();
     }
   }
 }

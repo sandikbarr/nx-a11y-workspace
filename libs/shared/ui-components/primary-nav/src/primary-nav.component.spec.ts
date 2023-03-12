@@ -137,7 +137,7 @@ describe('PrimaryNavComponent', () => {
                   path: 'page-two',
                   component: EmptyComponent,
                 },
-              ]
+              ],
             },
             {
               path: 'tab-two',
@@ -155,7 +155,7 @@ describe('PrimaryNavComponent', () => {
                   path: 'page-two',
                   component: EmptyComponent,
                 },
-              ]
+              ],
             },
           ]),
         ],
@@ -181,7 +181,7 @@ describe('PrimaryNavComponent', () => {
 
     it('focus stays on current nav link after navigation', async () => {
       const { links, location } = await setup();
-      
+
       expect(location.path()).toBe('');
       expect(links.length).toBeGreaterThan(1);
 
@@ -191,7 +191,7 @@ describe('PrimaryNavComponent', () => {
       waitFor(() => expect(location.path()).toBe('/tab-two'));
       expect(currentNavLink).toHaveFocus();
     });
-  })
+  });
 
   describe('navigates to primary nav links', () => {
     async function setup() {
@@ -247,17 +247,13 @@ describe('PrimaryNavComponent', () => {
       await userEvent.keyboard('[Space]');
       waitFor(() => expect(location.path()).toBe('/'));
     });
-
-    
   });
 
   describe('expands menu', () => {
     async function setup() {
       await render(PrimaryNavComponent, {
         componentProperties: { navMenuItems },
-        imports: [
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [RouterTestingModule.withRoutes([])],
       });
     }
 
@@ -267,17 +263,17 @@ describe('PrimaryNavComponent', () => {
       const navMenu = navMenuItems.find((item) => item.items);
       const navMenuButton = screen.getByText(navMenu?.label || '');
 
-      expect(navMenuButton).toHaveAttribute('aria-expanded', "false");
-      
+      expect(navMenuButton).toHaveAttribute('aria-expanded', 'false');
+
       // click to expand
       fireEvent.click(navMenuButton);
-      expect(navMenuButton).toHaveAttribute('aria-expanded', "true");
+      expect(navMenuButton).toHaveAttribute('aria-expanded', 'true');
 
       // click to collapse
       fireEvent.click(navMenuButton);
-      expect(navMenuButton).toHaveAttribute('aria-expanded', "false");
-    })
-  })
+      expect(navMenuButton).toHaveAttribute('aria-expanded', 'false');
+    });
+  });
 
   describe('when primary nav menu is expanded', () => {
     async function setup() {
@@ -287,7 +283,7 @@ describe('PrimaryNavComponent', () => {
           RouterTestingModule.withRoutes([
             {
               path: '',
-              component: EmptyComponent
+              component: EmptyComponent,
             },
             {
               path: 'tab-one',
@@ -301,7 +297,7 @@ describe('PrimaryNavComponent', () => {
                   path: 'page-two',
                   component: EmptyComponent,
                 },
-              ]
+              ],
             },
           ]),
         ],
@@ -320,7 +316,7 @@ describe('PrimaryNavComponent', () => {
         navMenuButton,
         items: navMenuItem?.items || [],
       };
-    };
+    }
     it('moves focus into menu with down arrow key', async () => {
       const { navMenuButton, items } = await setup();
       const firstMenuItem = screen.getAllByText(items[0].label)[0];
@@ -350,32 +346,40 @@ describe('PrimaryNavComponent', () => {
 
     it('collapses menu on Enter/Space', async () => {
       const { navMenuButton } = await setup();
-      expect(navMenuButton).toHaveAttribute('aria-expanded', "true");
-      
+      expect(navMenuButton).toHaveAttribute('aria-expanded', 'true');
+
       // focus on expanded menu
       navMenuButton?.focus();
       // Enter to collapse
       await userEvent.keyboard('[Enter]');
-      expect(navMenuButton).toHaveAttribute('aria-expanded', "false");
+      expect(navMenuButton).toHaveAttribute('aria-expanded', 'false');
 
       // Space to expand
       await userEvent.keyboard('[Space]');
-      expect(navMenuButton).toHaveAttribute('aria-expanded', "true");
+      expect(navMenuButton).toHaveAttribute('aria-expanded', 'true');
     });
 
     it.skip('collapses menu if another menu is opened', async () => {
       // const { navMenuButton, items } = await setup();
-
-      
     });
 
-    it('navigates to menu items with Space or Enter key', async () => {
-      const { location, items } = await setup();
+    it('navigates to menu items with Space or Enter key and closes menu', async () => {
+      const { navMenuButton, location, items } = await setup();
       const firstMenuItem = screen.getAllByText(items[0].label)[0];
       expect(location.path()).toBe('/');
       firstMenuItem.focus();
       await userEvent.keyboard('[Enter]');
       waitFor(() => expect(location.path()).toBe('/tab-one/page-one'));
+      expect(navMenuButton).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    it('Escape key closes menu and returns focus to menu button', async () => {
+      const { navMenuButton, items } = await setup();
+      const firstMenuItem = screen.getAllByText(items[0].label)[0];
+      firstMenuItem.focus();
+      await userEvent.keyboard('[Escape]');
+      expect(navMenuButton).toHaveAttribute('aria-expanded', 'false');
+      expect(navMenuButton).toHaveFocus();
     });
   });
 });

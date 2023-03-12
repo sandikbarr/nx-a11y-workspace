@@ -4,17 +4,25 @@ import { NavItem } from '../primary-nav.component';
 import { PrimaryNavMenuComponent } from './primary-nav-menu.component';
 
 describe('PrimaryNavMenuComponent', () => {
-  async function setup({id, expanded = true, items}: {id: string, expanded?: boolean, items: NavItem[]}) {
+  async function setup({
+    id,
+    expanded = true,
+    items,
+  }: {
+    id: string;
+    expanded?: boolean;
+    items: NavItem[];
+  }) {
     await render(PrimaryNavMenuComponent, {
-      componentProperties: {id, expanded, items},
+      componentProperties: { id, expanded, items },
     });
 
-    return { };
+    return {};
   }
 
   it('should create', async () => {
-    await setup({id: 'menu-1', expanded: false, items: []});
-    const menuList = screen.getByRole('list');
+    await setup({ id: 'menu-1', expanded: false, items: [] });
+    const menuList = screen.getByRole('menu');
     expect(menuList).toBeInTheDocument();
     expect(menuList).toBeVisible();
   });

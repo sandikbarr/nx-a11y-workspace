@@ -62,6 +62,7 @@ class PrimaryNavButtonLinkDirective {
               primary-nav
               type="button"
               [attr.aria-expanded]="isMenuExpanded(i)"
+              [attr.aria-haspopup]="'menu'"
               [attr.aria-controls]="nav.id"
               (click)="onMenuButtonClick(i)"
               (keydown)="onMenuButtonKey($event, nav, i)"
@@ -73,6 +74,7 @@ class PrimaryNavButtonLinkDirective {
               [expanded]="isMenuExpanded(i)"
               [items]="nav.items"
               (focusMenuButton)="focusMenuButton(i)"
+              (closeMenu)="closeMenu(i)"
             ></a11y-primary-nav-menu>
           </ng-template>
         </li>
@@ -98,7 +100,8 @@ class PrimaryNavButtonLinkDirective {
       li:hover {
         background-color: #d0d0d0;
       }
-      a, button {
+      a,
+      button {
         font-size: 1rem;
         line-height: 1.5rem;
         font-family: inherit;
@@ -134,17 +137,20 @@ export class PrimaryNavComponent {
     // close on escape
     if (this.isMenuExpanded(index) && event.key === 'Escape') {
       this.setExpandedMenu(-1);
-      // } else if (event.key === 'Enter' || event.key === ' ') {
-      // click event on <button> is also executed on keydown Enter and Space
-      //   this.setExpandedMenu(this.isMenuExpanded(index) ? -1 : index);
     }
+    // } else if (event.key === 'Enter' || event.key === ' ') {
+    // click event on <button> is also executed on keydown Enter and Space
+    //   this.setExpandedMenu(this.isMenuExpanded(index) ? -1 : index);
 
     // move focus into the open menu if the current menu is open
     else if (this.isMenuExpanded(index) && event.key === 'ArrowDown') {
       event.preventDefault();
 
       // focus first menu item <a>
-      this.navMenus?.toArray().find(navMenu => navMenu.id === menu.id)?.focusFirstLink();
+      this.navMenus
+        ?.toArray()
+        .find((navMenu) => navMenu.id === menu.id)
+        ?.focusFirstLink();
     }
 
     // handle arrow key navigation between primary menu items
@@ -175,8 +181,8 @@ export class PrimaryNavComponent {
 
   /**
    * Moves focus through primary menu items
-   * @param event 
-   * @param index 
+   * @param event
+   * @param index
    */
   controlFocusByKey(event: KeyboardEvent, index: number) {
     switch (event.key) {
@@ -210,9 +216,15 @@ export class PrimaryNavComponent {
   /**
    * Focuses menu button by index in menu.
    * Used to move focus up from dropdown menus
-   * @param index 
+   * @param index
    */
   focusMenuButton(index: number) {
     this.navButtonLinks?.get(index)?.focus();
+  }
+
+  closeMenu(index: number) {
+    if (this.isMenuExpanded(index)) {
+      this.setExpandedMenu(-1);
+    }
   }
 }
