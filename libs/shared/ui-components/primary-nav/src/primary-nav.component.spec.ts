@@ -314,7 +314,7 @@ describe('PrimaryNavComponent', () => {
       return {
         location,
         navMenuButton,
-        items: navMenuItem?.items || [],
+        items: (navMenuItem?.items || []) as NavItem[],
       };
     }
     it('moves focus into menu with down arrow key', async () => {

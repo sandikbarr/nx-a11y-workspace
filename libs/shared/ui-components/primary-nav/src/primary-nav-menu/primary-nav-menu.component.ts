@@ -4,7 +4,6 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
-  HostBinding,
   HostListener,
   Input,
   Output,
@@ -13,7 +12,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NavItem } from '../primary-nav.component';
+import { NavItem, isNavItemsGrouped } from '../primary-nav.component';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -38,16 +37,33 @@ class MenuItemDirective {
   imports: [CommonModule, RouterModule, MenuItemDirective],
   template: `
     <ul role="menu" [class.expanded]="expanded">
-      <li *ngFor="let item of items; let i = index">
-        <a
-          role="menuitem"
-          menu-item
-          [routerLink]="item.routerLink"
-          (keydown)="controlFocusByKey($event, i)"
-          (click)="closeMenu.emit()"
-          >{{ item.label }}</a
-        >
-      </li>
+      <ng-container *ngIf="isItemsGrouped(); else singleMenuGroup">
+        <ng-container *ngFor="let group of itemsAsGroups; let g = index">
+          <ng-container
+            *ngTemplateOutlet="menuGroup; context: { group }"
+          ></ng-container>
+          <li role="separator" *ngIf="g < (items?.length || 0) - 1"></li>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #singleMenuGroup>
+        <ng-container
+          *ngTemplateOutlet="menuGroup; context: { group: itemsAsSingleGroup }"
+        ></ng-container>
+      </ng-template>
+
+      <ng-template #menuGroup let-group="group">
+        <li role="none" *ngFor="let item of group; let i = index">
+          <a
+            role="menuitem"
+            menu-item
+            [routerLink]="item.routerLink"
+            (keydown)="controlFocusByKey($event, i)"
+            (click)="closeMenu.emit()"
+            >{{ item.label }}</a
+          >
+        </li>
+      </ng-template>
     </ul>
   `,
   styles: [
@@ -66,17 +82,25 @@ class MenuItemDirective {
         display: block;
       }
       li {
-        padding: 8px 16px;
+        padding: 0;
         white-space: nowrap;
       }
       li:hover {
         background-color: #d0d0d0;
+      }
+      li[role='separator'] {
+        margin: 4px 0;
+        border-top: 1px solid #e0e0e0;
+      }
+      li[role='separator']:hover {
+        background-color: transparent;
       }
       a {
         text-decoration: none;
         color: inherit;
         display: block;
         width: 100%;
+        padding: 8px 16px;
       }
     `,
   ],
@@ -85,7 +109,7 @@ class MenuItemDirective {
 export class PrimaryNavMenuComponent {
   @Input() id?: string;
   @Input() expanded?: boolean;
-  @Input() items?: NavItem[];
+  @Input() items?: NavItem[] | NavItem[][];
   @Output() focusMenuButton = new EventEmitter();
   @Output() closeMenu = new EventEmitter();
   @ViewChildren(MenuItemDirective) menuItems?: QueryList<MenuItemDirective>;
@@ -135,5 +159,23 @@ export class PrimaryNavMenuComponent {
       this.closeMenu.emit();
       this.focusMenuButton.emit();
     }
+  }
+
+  isItemsGrouped(): boolean {
+    return isNavItemsGrouped(this.items);
+  }
+
+  get itemsAsGroups(): NavItem[][] | undefined {
+    if (this.isItemsGrouped()) {
+      return this.items as NavItem[][];
+    }
+    return;
+  }
+
+  get itemsAsSingleGroup(): NavItem[] | undefined {
+    if (!this.isItemsGrouped()) {
+      return this.items as NavItem[];
+    }
+    return;
   }
 }
