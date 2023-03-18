@@ -1,10 +1,10 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
-
+name: Deploy
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: [main]
+    branches:
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -28,24 +28,24 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node/v3
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
           cache: npm
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
       - name: Build
-        run: nx run nx-a11y:build:production
+        run: npx nx run nx-a11y:build:production --base-href https://sandikbarr.github.io/nx-a11y-workspace/
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
-          path: dist
+          # Upload dist
+          path: dist/apps/nx-a11y
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
