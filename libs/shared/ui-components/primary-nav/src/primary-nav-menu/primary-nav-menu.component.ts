@@ -53,11 +53,17 @@ class MenuItemDirective {
       </ng-template>
 
       <ng-template #menuGroup let-group="group">
-        <li role="none" *ngFor="let item of group; let i = index">
+        <li
+          role="none"
+          routerLinkActive="active"
+          *ngFor="let item of group; let i = index"
+        >
           <a
             role="menuitem"
             menu-item
             [routerLink]="item.routerLink"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
             (keydown)="controlFocusByKey($event, i)"
             (click)="closeMenu.emit()"
             >{{ item.label }}</a
@@ -85,7 +91,8 @@ class MenuItemDirective {
         padding: 0;
         white-space: nowrap;
       }
-      li:hover {
+      li:hover,
+      li.active {
         background-color: #d0d0d0;
       }
       li[role='separator'] {
@@ -101,6 +108,9 @@ class MenuItemDirective {
         display: block;
         width: 100%;
         padding: 8px 16px;
+      }
+      a.active {
+        text-decoration: underline;
       }
     `,
   ],

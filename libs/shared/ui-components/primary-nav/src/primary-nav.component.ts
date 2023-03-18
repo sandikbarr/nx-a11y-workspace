@@ -53,11 +53,18 @@ class PrimaryNavButtonLinkDirective {
   template: `
     <nav [attr.aria-label]="ariaLabel || 'Primary'">
       <ul class="disclosure-nav">
-        <li *ngFor="let nav of navMenuItems; let i = index">
+        <li
+          *ngFor="let nav of navMenuItems; let i = index"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: !nav.items?.length }"
+        >
           <a
             primary-nav
             *ngIf="!nav.items?.length; else menu"
             [routerLink]="nav.routerLink"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            [routerLinkActiveOptions]="{ exact: true }"
             (keydown)="onPrimaryLinkKey($event, i)"
             (click)="onPrimaryLinkClick()"
             >{{ nav.label }}</a
@@ -75,6 +82,8 @@ class PrimaryNavButtonLinkDirective {
             >
               {{ nav.label }}
             </button>
+            <!-- hidden active routerLink for routerLinkActive on parent li -->
+            <a hidden tabindex="-1" [routerLink]="nav.routerLink">hidden</a>
             <a11y-primary-nav-menu
               [id]="nav.id"
               [expanded]="isMenuExpanded(i)"
@@ -103,7 +112,8 @@ class PrimaryNavButtonLinkDirective {
       li:not(:first-child) {
         border-left: solid black 1px;
       }
-      li:hover {
+      li:hover,
+      li.active {
         background-color: #d0d0d0;
       }
       a,
@@ -233,4 +243,6 @@ export class PrimaryNavComponent {
       this.setExpandedMenu(-1);
     }
   }
+
+  // TODO: no overlay, should be able to click outside menu to close
 }

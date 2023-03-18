@@ -24,6 +24,7 @@ export class AppComponent {
     {
       id: 'angular-eslint',
       label: 'Angular ESLint',
+      routerLink: ['/angular-eslint'],
       items: [
         // Keyboard Navigation
         [
@@ -113,6 +114,7 @@ export class AppComponent {
     {
       id: 'testing-library',
       label: 'Testing Library',
+      routerLink: ['/testing-library'],
       items: [
         // QUERIES
         [
