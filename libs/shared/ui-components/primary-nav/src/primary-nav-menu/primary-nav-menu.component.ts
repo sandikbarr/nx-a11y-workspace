@@ -38,11 +38,11 @@ class MenuItemDirective {
   template: `
     <ul role="menu" [class.expanded]="expanded">
       <ng-container *ngIf="isItemsGrouped(); else singleMenuGroup">
-        <ng-container *ngFor="let group of itemsAsGroups; let g = index">
+        <ng-container *ngFor="let group of itemsAsGroups; let groupIndex = index">
           <ng-container
-            *ngTemplateOutlet="menuGroup; context: { group }"
+            *ngTemplateOutlet="menuGroup; context: { group, groupIndex }"
           ></ng-container>
-          <li role="separator" *ngIf="g < (items?.length || 0) - 1"></li>
+          <li role="separator" *ngIf="groupIndex < (items?.length || 0) - 1"></li>
         </ng-container>
       </ng-container>
 
@@ -52,7 +52,7 @@ class MenuItemDirective {
         ></ng-container>
       </ng-template>
 
-      <ng-template #menuGroup let-group="group">
+      <ng-template #menuGroup let-group="group" let-groupIndex="groupIndex">
         <li
           role="none"
           routerLinkActive="active"
@@ -64,8 +64,8 @@ class MenuItemDirective {
             [routerLink]="item.routerLink"
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
-            (keydown)="controlFocusByKey($event, i)"
-            (click)="closeMenu.emit()"
+            (keydown)="controlFocusByKey($event, groupIndex, i)"
+            (click)="closeAndFocusMenuButton()"
             >{{ item.label }}</a
           >
         </li>
@@ -128,7 +128,16 @@ export class PrimaryNavMenuComponent {
     this.menuItems?.first.focus();
   }
 
-  controlFocusByKey(event: KeyboardEvent, index: number) {
+  closeAndFocusMenuButton() {
+    this.closeMenu.emit();
+    this.focusMenuButton.emit();
+  }
+
+  controlFocusByKey(event: KeyboardEvent, groupIndex: number, itemIndex: number) {
+    let index = itemIndex;
+    if (groupIndex && isNavItemsGrouped(this.items)) {
+      index = this.items.slice(0, groupIndex).reduce((acc, group) => acc+=group.length, itemIndex)
+    }
     switch (event.key) {
       case ' ':
         // click <a> on Space for consistent UX within menu for <button> and <a>
@@ -149,6 +158,7 @@ export class PrimaryNavMenuComponent {
         event.preventDefault();
         if (index > -1 && this.menuItems) {
           const nextIndex = Math.min(this.menuItems.length - 1, index + 1);
+          console.log({groupIndex, itemIndex, index, nextIndex});
           this.menuItems?.get(nextIndex)?.focus();
         }
         break;

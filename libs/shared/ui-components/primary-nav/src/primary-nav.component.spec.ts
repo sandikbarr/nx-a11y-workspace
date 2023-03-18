@@ -363,7 +363,16 @@ describe('PrimaryNavComponent', () => {
       // const { navMenuButton, items } = await setup();
     });
 
-    it('navigates to menu items with Space or Enter key and closes menu', async () => {
+    it('navigates to menu items with Space key', async () => {
+      const { location, items } = await setup();
+      const firstMenuItem = screen.getAllByText(items[0].label)[0];
+      expect(location.path()).toBe('/');
+      firstMenuItem.focus();
+      await userEvent.keyboard('[Space]');
+      waitFor(() => expect(location.path()).toBe('/tab-one/page-one'));
+    });
+
+    it('navigates to menu items, closes menu, and returns focus to menu button', async () => {
       const { navMenuButton, location, items } = await setup();
       const firstMenuItem = screen.getAllByText(items[0].label)[0];
       expect(location.path()).toBe('/');
@@ -371,6 +380,7 @@ describe('PrimaryNavComponent', () => {
       await userEvent.keyboard('[Enter]');
       waitFor(() => expect(location.path()).toBe('/tab-one/page-one'));
       expect(navMenuButton).toHaveAttribute('aria-expanded', 'false');
+      expect(navMenuButton).toHaveFocus();
     });
 
     it('Escape key closes menu and returns focus to menu button', async () => {
