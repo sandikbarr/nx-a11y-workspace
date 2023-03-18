@@ -8,6 +8,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { PrimaryNavMenuComponent } from './primary-nav-menu/primary-nav-menu.component';
 import { RouterModule } from '@angular/router';
 
@@ -15,7 +16,13 @@ export interface NavItem {
   id: string;
   label: string;
   routerLink?: string[];
-  items?: NavItem[];
+  items?: NavItem[] | NavItem[][];
+}
+
+export function isNavItemsGrouped(
+  items?: NavItem[] | NavItem[][]
+): items is NavItem[][] {
+  return !!items?.length && Array.isArray(items[0]);
 }
 
 @Directive({
@@ -41,17 +48,27 @@ class PrimaryNavButtonLinkDirective {
   imports: [
     CommonModule,
     RouterModule,
+    OverlayModule,
     PrimaryNavMenuComponent,
     PrimaryNavButtonLinkDirective,
   ],
   template: `
     <nav [attr.aria-label]="ariaLabel || 'Primary'">
       <ul class="disclosure-nav">
-        <li *ngFor="let nav of navMenuItems; let i = index">
+        <li
+          *ngFor="let nav of navMenuItems; let i = index"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: !nav.items?.length }"
+        >
           <a
             primary-nav
             *ngIf="!nav.items?.length; else menu"
             [routerLink]="nav.routerLink"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            [routerLinkActiveOptions]="{ exact: true }"
+            cdkOverlayOrigin
+            #trigger="cdkOverlayOrigin"
             (keydown)="onPrimaryLinkKey($event, i)"
             (click)="onPrimaryLinkClick()"
             >{{ nav.label }}</a
@@ -64,18 +81,29 @@ class PrimaryNavButtonLinkDirective {
               [attr.aria-expanded]="isMenuExpanded(i)"
               [attr.aria-haspopup]="'menu'"
               [attr.aria-controls]="nav.id"
+              cdkOverlayOrigin
+              #trigger="cdkOverlayOrigin"
               (click)="onMenuButtonClick(i)"
               (keydown)="onMenuButtonKey($event, nav, i)"
             >
               {{ nav.label }}
             </button>
-            <a11y-primary-nav-menu
-              [id]="nav.id"
-              [expanded]="isMenuExpanded(i)"
-              [items]="nav.items"
-              (focusMenuButton)="focusMenuButton(i)"
-              (closeMenu)="closeMenu(i)"
-            ></a11y-primary-nav-menu>
+            <!-- hidden active routerLink for routerLinkActive on parent li -->
+            <a hidden tabindex="-1" [routerLink]="nav.routerLink">hidden</a>
+            <ng-template
+              cdkConnectedOverlay
+              [cdkConnectedOverlayOrigin]="trigger"
+              [cdkConnectedOverlayOpen]="isMenuExpanded(i)"
+              (overlayOutsideClick)="closeMenu(i)"
+            >
+              <a11y-primary-nav-menu
+                [id]="nav.id"
+                [expanded]="isMenuExpanded(i)"
+                [items]="nav.items"
+                (focusMenuButton)="focusMenuButton(i)"
+                (closeMenu)="closeMenu(i)"
+              ></a11y-primary-nav-menu>
+            </ng-template>
           </ng-template>
         </li>
       </ul>
@@ -87,17 +115,17 @@ class PrimaryNavButtonLinkDirective {
         list-style: none;
         display: flex;
         margin: 0;
-        padding: 0 16px;
+        padding: 0;
         background-color: #f0f0f0;
       }
       li {
-        margin: 12px 0px;
-        padding: 4px 8px;
+        padding: 0.5rem 1rem;
       }
       li:not(:first-child) {
         border-left: solid black 1px;
       }
-      li:hover {
+      li:hover,
+      li.active {
         background-color: #d0d0d0;
       }
       a,

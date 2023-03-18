@@ -4,7 +4,6 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
-  HostBinding,
   HostListener,
   Input,
   Output,
@@ -13,7 +12,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NavItem } from '../primary-nav.component';
+import { NavItem, isNavItemsGrouped } from '../primary-nav.component';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -38,45 +37,89 @@ class MenuItemDirective {
   imports: [CommonModule, RouterModule, MenuItemDirective],
   template: `
     <ul role="menu" [class.expanded]="expanded">
-      <li *ngFor="let item of items; let i = index">
-        <a
-          role="menuitem"
-          menu-item
-          [routerLink]="item.routerLink"
-          (keydown)="controlFocusByKey($event, i)"
-          (click)="closeMenu.emit()"
-          >{{ item.label }}</a
+      <ng-container *ngIf="isItemsGrouped(); else singleMenuGroup">
+        <ng-container
+          *ngFor="let group of itemsAsGroups; let groupIndex = index"
         >
-      </li>
+          <ng-container
+            *ngTemplateOutlet="menuGroup; context: { group, groupIndex }"
+          ></ng-container>
+          <li
+            role="separator"
+            *ngIf="groupIndex < (items?.length || 0) - 1"
+          ></li>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #singleMenuGroup>
+        <ng-container
+          *ngTemplateOutlet="menuGroup; context: { group: itemsAsSingleGroup }"
+        ></ng-container>
+      </ng-template>
+
+      <ng-template #menuGroup let-group="group" let-groupIndex="groupIndex">
+        <li
+          role="none"
+          routerLinkActive="active"
+          *ngFor="let item of group; let i = index"
+        >
+          <a
+            role="menuitem"
+            menu-item
+            [routerLink]="item.routerLink"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            (keydown)="controlFocusByKey($event, groupIndex, i)"
+            (click)="closeAndFocusMenuButton()"
+            >{{ item.label }}</a
+          >
+        </li>
+      </ng-template>
     </ul>
   `,
   styles: [
     `
       :host {
         position: relative;
+        display: block;
       }
       ul {
         display: none;
         position: absolute;
         list-style: none;
-        padding: 0;
         background-color: #f0f0f0;
+        padding: 0;
+        margin: 0;
+        top: 0.5rem;
+        left: -1rem;
       }
       ul.expanded {
         display: block;
       }
       li {
-        padding: 8px 16px;
+        padding: 0;
         white-space: nowrap;
       }
-      li:hover {
+      li:hover,
+      li.active {
         background-color: #d0d0d0;
+      }
+      li[role='separator'] {
+        margin: 0.25rem 0;
+        border-top: 1px solid #e0e0e0;
+      }
+      li[role='separator']:hover {
+        background-color: transparent;
       }
       a {
         text-decoration: none;
         color: inherit;
         display: block;
         width: 100%;
+        padding: 0.5rem 1rem;
+      }
+      a.active {
+        text-decoration: underline;
       }
     `,
   ],
@@ -85,7 +128,7 @@ class MenuItemDirective {
 export class PrimaryNavMenuComponent {
   @Input() id?: string;
   @Input() expanded?: boolean;
-  @Input() items?: NavItem[];
+  @Input() items?: NavItem[] | NavItem[][];
   @Output() focusMenuButton = new EventEmitter();
   @Output() closeMenu = new EventEmitter();
   @ViewChildren(MenuItemDirective) menuItems?: QueryList<MenuItemDirective>;
@@ -94,7 +137,22 @@ export class PrimaryNavMenuComponent {
     this.menuItems?.first.focus();
   }
 
-  controlFocusByKey(event: KeyboardEvent, index: number) {
+  closeAndFocusMenuButton() {
+    this.closeMenu.emit();
+    this.focusMenuButton.emit();
+  }
+
+  controlFocusByKey(
+    event: KeyboardEvent,
+    groupIndex: number,
+    itemIndex: number
+  ) {
+    let index = itemIndex;
+    if (groupIndex && isNavItemsGrouped(this.items)) {
+      index = this.items
+        .slice(0, groupIndex)
+        .reduce((acc, group) => (acc += group.length), itemIndex);
+    }
     switch (event.key) {
       case ' ':
         // click <a> on Space for consistent UX within menu for <button> and <a>
@@ -135,5 +193,23 @@ export class PrimaryNavMenuComponent {
       this.closeMenu.emit();
       this.focusMenuButton.emit();
     }
+  }
+
+  isItemsGrouped(): boolean {
+    return isNavItemsGrouped(this.items);
+  }
+
+  get itemsAsGroups(): NavItem[][] | undefined {
+    if (this.isItemsGrouped()) {
+      return this.items as NavItem[][];
+    }
+    return;
+  }
+
+  get itemsAsSingleGroup(): NavItem[] | undefined {
+    if (!this.isItemsGrouped()) {
+      return this.items as NavItem[];
+    }
+    return;
   }
 }
