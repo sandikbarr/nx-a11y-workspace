@@ -102,12 +102,11 @@ class PrimaryNavButtonLinkDirective {
         list-style: none;
         display: flex;
         margin: 0;
-        padding: 0 16px;
+        padding: 0;
         background-color: #f0f0f0;
       }
       li {
-        margin: 12px 0px;
-        padding: 4px 8px;
+        padding: 8px 16px;
       }
       li:not(:first-child) {
         border-left: solid black 1px;

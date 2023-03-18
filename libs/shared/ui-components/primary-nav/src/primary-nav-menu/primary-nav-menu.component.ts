@@ -38,11 +38,16 @@ class MenuItemDirective {
   template: `
     <ul role="menu" [class.expanded]="expanded">
       <ng-container *ngIf="isItemsGrouped(); else singleMenuGroup">
-        <ng-container *ngFor="let group of itemsAsGroups; let groupIndex = index">
+        <ng-container
+          *ngFor="let group of itemsAsGroups; let groupIndex = index"
+        >
           <ng-container
             *ngTemplateOutlet="menuGroup; context: { group, groupIndex }"
           ></ng-container>
-          <li role="separator" *ngIf="groupIndex < (items?.length || 0) - 1"></li>
+          <li
+            role="separator"
+            *ngIf="groupIndex < (items?.length || 0) - 1"
+          ></li>
         </ng-container>
       </ng-container>
 
@@ -76,6 +81,7 @@ class MenuItemDirective {
     `
       :host {
         position: relative;
+        display: block;
       }
       ul {
         display: none;
@@ -83,6 +89,8 @@ class MenuItemDirective {
         list-style: none;
         padding: 0;
         background-color: #f0f0f0;
+        top: 8px;
+        left: -16px;
       }
       ul.expanded {
         display: block;
@@ -133,10 +141,16 @@ export class PrimaryNavMenuComponent {
     this.focusMenuButton.emit();
   }
 
-  controlFocusByKey(event: KeyboardEvent, groupIndex: number, itemIndex: number) {
+  controlFocusByKey(
+    event: KeyboardEvent,
+    groupIndex: number,
+    itemIndex: number
+  ) {
     let index = itemIndex;
     if (groupIndex && isNavItemsGrouped(this.items)) {
-      index = this.items.slice(0, groupIndex).reduce((acc, group) => acc+=group.length, itemIndex)
+      index = this.items
+        .slice(0, groupIndex)
+        .reduce((acc, group) => (acc += group.length), itemIndex);
     }
     switch (event.key) {
       case ' ':
@@ -158,7 +172,6 @@ export class PrimaryNavMenuComponent {
         event.preventDefault();
         if (index > -1 && this.menuItems) {
           const nextIndex = Math.min(this.menuItems.length - 1, index + 1);
-          console.log({groupIndex, itemIndex, index, nextIndex});
           this.menuItems?.get(nextIndex)?.focus();
         }
         break;
