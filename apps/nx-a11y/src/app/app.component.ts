@@ -12,7 +12,14 @@ import { NavItem, PrimaryNavComponent } from '@a11y/ui-components/primary-nav';
       <router-outlet></router-outlet>
     </main>
   `,
-  styles: [],
+  styles: [
+    `
+      main {
+        margin: 1.5rem;
+        min-height: calc(100vh - 5.5rem);
+      }
+    `,
+  ],
 })
 export class AppComponent {
   navMenuItems: NavItem[] = [

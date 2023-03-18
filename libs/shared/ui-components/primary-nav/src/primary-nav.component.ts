@@ -8,6 +8,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { PrimaryNavMenuComponent } from './primary-nav-menu/primary-nav-menu.component';
 import { RouterModule } from '@angular/router';
 
@@ -47,6 +48,7 @@ class PrimaryNavButtonLinkDirective {
   imports: [
     CommonModule,
     RouterModule,
+    OverlayModule,
     PrimaryNavMenuComponent,
     PrimaryNavButtonLinkDirective,
   ],
@@ -65,6 +67,8 @@ class PrimaryNavButtonLinkDirective {
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             [routerLinkActiveOptions]="{ exact: true }"
+            cdkOverlayOrigin
+            #trigger="cdkOverlayOrigin"
             (keydown)="onPrimaryLinkKey($event, i)"
             (click)="onPrimaryLinkClick()"
             >{{ nav.label }}</a
@@ -77,6 +81,8 @@ class PrimaryNavButtonLinkDirective {
               [attr.aria-expanded]="isMenuExpanded(i)"
               [attr.aria-haspopup]="'menu'"
               [attr.aria-controls]="nav.id"
+              cdkOverlayOrigin
+              #trigger="cdkOverlayOrigin"
               (click)="onMenuButtonClick(i)"
               (keydown)="onMenuButtonKey($event, nav, i)"
             >
@@ -84,13 +90,20 @@ class PrimaryNavButtonLinkDirective {
             </button>
             <!-- hidden active routerLink for routerLinkActive on parent li -->
             <a hidden tabindex="-1" [routerLink]="nav.routerLink">hidden</a>
-            <a11y-primary-nav-menu
-              [id]="nav.id"
-              [expanded]="isMenuExpanded(i)"
-              [items]="nav.items"
-              (focusMenuButton)="focusMenuButton(i)"
-              (closeMenu)="closeMenu(i)"
-            ></a11y-primary-nav-menu>
+            <ng-template
+              cdkConnectedOverlay
+              [cdkConnectedOverlayOrigin]="trigger"
+              [cdkConnectedOverlayOpen]="isMenuExpanded(i)"
+              (overlayOutsideClick)="closeMenu(i)"
+            >
+              <a11y-primary-nav-menu
+                [id]="nav.id"
+                [expanded]="isMenuExpanded(i)"
+                [items]="nav.items"
+                (focusMenuButton)="focusMenuButton(i)"
+                (closeMenu)="closeMenu(i)"
+              ></a11y-primary-nav-menu>
+            </ng-template>
           </ng-template>
         </li>
       </ul>
@@ -106,7 +119,7 @@ class PrimaryNavButtonLinkDirective {
         background-color: #f0f0f0;
       }
       li {
-        padding: 8px 16px;
+        padding: 0.5rem 1rem;
       }
       li:not(:first-child) {
         border-left: solid black 1px;

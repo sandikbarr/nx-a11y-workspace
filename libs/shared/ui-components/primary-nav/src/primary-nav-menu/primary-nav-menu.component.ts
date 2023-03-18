@@ -87,10 +87,11 @@ class MenuItemDirective {
         display: none;
         position: absolute;
         list-style: none;
-        padding: 0;
         background-color: #f0f0f0;
-        top: 8px;
-        left: -16px;
+        padding: 0;
+        margin: 0;
+        top: 0.5rem;
+        left: -1rem;
       }
       ul.expanded {
         display: block;
@@ -104,7 +105,7 @@ class MenuItemDirective {
         background-color: #d0d0d0;
       }
       li[role='separator'] {
-        margin: 4px 0;
+        margin: 0.25rem 0;
         border-top: 1px solid #e0e0e0;
       }
       li[role='separator']:hover {
@@ -115,7 +116,7 @@ class MenuItemDirective {
         color: inherit;
         display: block;
         width: 100%;
-        padding: 8px 16px;
+        padding: 0.5rem 1rem;
       }
       a.active {
         text-decoration: underline;
