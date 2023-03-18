@@ -7,7 +7,7 @@ import { PrimaryNavMenuComponent } from './primary-nav-menu.component';
 describe('PrimaryNavMenuComponent', () => {
   async function setup({
     id,
-    expanded = true,
+    expanded,
     items,
   }: {
     id: string;
@@ -25,7 +25,24 @@ describe('PrimaryNavMenuComponent', () => {
     await setup({ id: 'menu-1', expanded: false, items: [] });
     const menuList = screen.getByRole('menu');
     expect(menuList).toBeInTheDocument();
-    expect(menuList).toBeVisible();
+  });
+
+  it('should hide menu', async () => {
+    await setup({ id: 'menu-1', expanded: false, items: [] });
+    const menuList = screen.getByRole('menu');
+    // JSDOM does not render CSS
+    // expect(menuList).not.toBeVisible();
+    // expect(window.getComputedStyle(menuList).display).toEqual('none');
+    expect(menuList).not.toHaveClass('expanded');
+  });
+
+  it('should show menu', async () => {
+    await setup({ id: 'menu-1', expanded: true, items: [] });
+    const menuList = screen.getByRole('menu');
+    // JSDOM does not render CSS
+    // expect(menuList).toBeVisible();
+    // expect(window.getComputedStyle(menuList).display).toEqual('block');
+    expect(menuList).toHaveClass('expanded');
   });
 
   it('traverses over menu items in groups', async () => {
