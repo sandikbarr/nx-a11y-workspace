@@ -255,6 +255,4 @@ export class PrimaryNavComponent {
       this.setExpandedMenu(-1);
     }
   }
-
-  // TODO: no overlay, should be able to click outside menu to close
 }
