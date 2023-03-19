@@ -94,7 +94,7 @@ class PrimaryNavButtonLinkDirective {
               cdkConnectedOverlay
               [cdkConnectedOverlayOrigin]="trigger"
               [cdkConnectedOverlayOpen]="isMenuExpanded(i)"
-              (overlayOutsideClick)="closeMenu(i)"
+              (overlayOutsideClick)="overlayClicked($event, i)"
             >
               <a11y-primary-nav-menu
                 [id]="nav.id"
@@ -253,6 +253,21 @@ export class PrimaryNavComponent {
   closeMenu(index: number) {
     if (this.isMenuExpanded(index)) {
       this.setExpandedMenu(-1);
+    }
+  }
+
+  overlayClicked(event: Event, index: number) {
+    const element = event.target as Element | null;
+    // only close the menu if the target was not the trigger button
+    // otherwise button click will open it back up
+    if (
+      !(
+        element?.nodeName.toLowerCase() === 'button' &&
+        element?.attributes.getNamedItem('aria-haspopup')?.value === 'menu' &&
+        element?.attributes.getNamedItem('aria-expanded')?.value === 'true'
+      )
+    ) {
+      this.closeMenu(index);
     }
   }
 }

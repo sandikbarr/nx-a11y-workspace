@@ -257,7 +257,7 @@ describe('PrimaryNavComponent', () => {
       });
     }
 
-    it('show/hide menu', async () => {
+    it('show/hide menu on button click', async () => {
       await setup();
 
       const navMenu = navMenuItems.find((item) => item.items);
@@ -265,14 +265,13 @@ describe('PrimaryNavComponent', () => {
 
       expect(navMenuButton).toHaveAttribute('aria-expanded', 'false');
 
-      // click to expand
+      // click button to expand
       fireEvent.click(navMenuButton);
       expect(navMenuButton).toHaveAttribute('aria-expanded', 'true');
 
-      // click to collapse
-      // overlay trigger not clickable when open
-      // fireEvent.click(navMenuButton);
-      // expect(navMenuButton).toHaveAttribute('aria-expanded', 'false');
+      // click button to collapse
+      fireEvent.click(navMenuButton);
+      expect(navMenuButton).toHaveAttribute('aria-expanded', 'false');
     });
 
     it('click overlay to collapse', async () => {
@@ -389,18 +388,11 @@ describe('PrimaryNavComponent', () => {
       const { navMenuButtons } = await setup();
       expect(navMenuButtons[0]).toHaveAttribute('aria-expanded', 'true');
 
-      // cdk overlay blocks the trigger button
-      // focus on expanded menu
-      // navMenuButtons[0]?.focus();
-      // Enter to collapse
-      // await userEvent.keyboard('[Enter]');
-
-      // Focus and trigger another menu button to collapse
-      navMenuButtons[1]?.focus();
+      // Focus and trigger menu button to collapse
+      navMenuButtons[0]?.focus();
       // Enter to collapse
       await userEvent.keyboard('[Enter]');
       expect(navMenuButtons[0]).toHaveAttribute('aria-expanded', 'false');
-      expect(navMenuButtons[1]).toHaveAttribute('aria-expanded', 'true');
 
       // Space to expand
       navMenuButtons[0]?.focus();
