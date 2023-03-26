@@ -21,56 +21,56 @@ import { AccessibilityAltTextComponent } from './accessibility-alt-text/accessib
     CommonModule,
     RouterModule.forChild([
       {
-        path: 'no-positive-tabindex',
+        path: 'keyboard/no-positive-tabindex',
         component: NoPositiveTabindexComponent,
       },
       {
-        path: 'no-distracting-elements',
-        component: NoDistractingElementsComponent,
-      },
-      {
-        path: 'no-autofocus',
+        path: 'keyboard/no-autofocus',
         component: NoAutofocusComponent,
       },
       {
-        path: 'mouse-events-have-key-events',
+        path: 'keyboard/mouse-events-have-key-events',
         component: MouseEventsHaveKeyEventsComponent,
       },
       {
-        path: 'click-events-have-key-events',
+        path: 'keyboard/click-events-have-key-events',
         component: ClickEventsHaveKeyEventsComponent,
       },
       {
-        path: 'button-has-type',
-        component: ButtonHasTypeComponent,
-      },
-      {
-        path: 'accessibility-valid-aria',
-        component: AccessibilityValidAriaComponent,
-      },
-      {
-        path: 'accessibility-table-scope',
-        component: AccessibilityTableScopeComponent,
-      },
-      {
-        path: 'accessibility-role-has-required-aria',
-        component: AccessibilityRoleHasRequiredAriaComponent,
-      },
-      {
-        path: 'accessibility-label-has-associated-control',
-        component: AccessibilityLabelHasAssociatedControlComponent,
-      },
-      {
-        path: 'accessibility-interactive-supports-focus',
+        path: 'keyboard/accessibility-interactive-supports-focus',
         component: AccessibilityInteractiveSupportsFocusComponent,
       },
       {
-        path: 'accessibility-elements-content',
+        path: 'aria/accessibility-valid-aria',
+        component: AccessibilityValidAriaComponent,
+      },
+      {
+        path: 'aria/accessibility-role-has-required-aria',
+        component: AccessibilityRoleHasRequiredAriaComponent,
+      },
+      {
+        path: 'content/accessibility-alt-text',
+        component: AccessibilityAltTextComponent,
+      },
+      {
+        path: 'content/accessibility-elements-content',
         component: AccessibilityElementsContentComponent,
       },
       {
-        path: 'accessibility-alt-text',
-        component: AccessibilityAltTextComponent,
+        path: 'content/accessibility-label-has-associated-control',
+        component: AccessibilityLabelHasAssociatedControlComponent,
+      },
+      {
+        path: 'content/accessibility-table-scope',
+        component: AccessibilityTableScopeComponent,
+      },
+      {
+        path: 'content/no-distracting-elements',
+        component: NoDistractingElementsComponent,
+      },
+      {
+        path: 'content/button-has-type',
+        component: ButtonHasTypeComponent,
       },
     ]),
   ],
