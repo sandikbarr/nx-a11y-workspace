@@ -5,14 +5,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { fireEvent, screen, render, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { PrimaryNavComponent, NavItem } from './primary-nav.component';
+import { NavItem } from '../../nav.model';
+import { HorizontalNavComponent } from './horizontal-nav.component';
 
 @Component({
   template: '',
 })
 export class EmptyComponent {}
 
-describe('PrimaryNavComponent', () => {
+describe('HorizontalNavComponent', () => {
   const navMenuItems: NavItem[] = [
     {
       id: 'home',
@@ -58,10 +59,10 @@ describe('PrimaryNavComponent', () => {
     },
   ];
 
-  describe('moves focus between primary nav items', () => {
+  describe('moves focus between horizontal nav items', () => {
     const setup = async () => {
       // render (with @testing-library/angular)
-      await render(PrimaryNavComponent, {
+      await render(HorizontalNavComponent, {
         componentProperties: { navMenuItems },
       });
 
@@ -117,7 +118,7 @@ describe('PrimaryNavComponent', () => {
 
   describe('retains focus on navigation', () => {
     async function setup() {
-      await render(PrimaryNavComponent, {
+      await render(HorizontalNavComponent, {
         componentProperties: { navMenuItems },
         imports: [
           RouterTestingModule.withRoutes([
@@ -193,9 +194,9 @@ describe('PrimaryNavComponent', () => {
     });
   });
 
-  describe('navigates to primary nav links', () => {
+  describe('navigates to horizontal nav links', () => {
     async function setup() {
-      await render(PrimaryNavComponent, {
+      await render(HorizontalNavComponent, {
         componentProperties: { navMenuItems },
         imports: [
           RouterTestingModule.withRoutes([
@@ -251,7 +252,7 @@ describe('PrimaryNavComponent', () => {
 
   describe('expands menu', () => {
     async function setup() {
-      await render(PrimaryNavComponent, {
+      await render(HorizontalNavComponent, {
         componentProperties: { navMenuItems },
         imports: [RouterTestingModule.withRoutes([])],
       });
@@ -294,9 +295,9 @@ describe('PrimaryNavComponent', () => {
     });
   });
 
-  describe('when primary nav menu is expanded', () => {
+  describe('when nav menu is expanded', () => {
     async function setup() {
-      await render(PrimaryNavComponent, {
+      await render(HorizontalNavComponent, {
         componentProperties: { navMenuItems },
         imports: [
           RouterTestingModule.withRoutes([

@@ -28,8 +28,14 @@
       "@a11y/ui-components/popup-menu": [
         "libs/shared/ui-components/popup-menu/index.ts"
       ],
-      "@a11y/ui-components/primary-nav": [
-        "libs/shared/ui-components/primary-nav/index.ts"
+      "@a11y/ui-components/nav": [
+        "libs/shared/ui-components/nav/index.ts"
+      ],
+      "@a11y/ui-components/nav/horizontal-nav": [
+        "libs/shared/ui-components/nav/horizontal-nav.ts"
+      ],
+      "@a11y/ui-components/nav/vertical-nav": [
+        "libs/shared/ui-components/nav/vertical-nav.ts"
       ],
       "@nx-a11y-workspace/nx-a11y-demo/angular-eslint": [
         "libs/nx-a11y-demo/angular-eslint/src/index.ts"
