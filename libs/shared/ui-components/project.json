@@ -41,15 +41,7 @@
       "options": {
         "lintFilePatterns": [
           "libs/shared/ui-components/**/*.ts",
-          "libs/shared/ui-components/**/*.html",
-          "libs/shared/ui-components/primary-nav/**/*.ts",
-          "libs/shared/ui-components/primary-nav/**/*.html",
-          "libs/shared/ui-components/checkbox/**/*.ts",
-          "libs/shared/ui-components/checkbox/**/*.html",
-          "libs/shared/ui-components/input/**/*.ts",
-          "libs/shared/ui-components/input/**/*.html",
-          "libs/shared/ui-components/form/**/*.ts",
-          "libs/shared/ui-components/form/**/*.html"
+          "libs/shared/ui-components/**/*.html"
         ]
       }
     }

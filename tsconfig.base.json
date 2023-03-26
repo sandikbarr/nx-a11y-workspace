@@ -16,11 +16,17 @@
     "baseUrl": ".",
     "paths": {
       "@a11y/ui-components": ["libs/shared/ui-components/index.ts"],
+      "@a11y/ui-components/expansion-menu": [
+        "libs/shared/ui-components/expansion-menu/index.ts"
+      ],
       "@a11y/ui-components/form/checkbox": [
         "libs/shared/ui-components/form/checkbox/index.ts"
       ],
       "@a11y/ui-components/form/input": [
         "libs/shared/ui-components/form/input/index.ts"
+      ],
+      "@a11y/ui-components/popup-menu": [
+        "libs/shared/ui-components/popup-menu/index.ts"
       ],
       "@a11y/ui-components/primary-nav": [
         "libs/shared/ui-components/primary-nav/index.ts"
