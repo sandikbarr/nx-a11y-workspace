@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 let uniqueIdCounter = 0;
 
 @Component({
-  selector: 'a11y-input',
+  selector: 'ui-input',
   standalone: true,
   imports: [CommonModule],
   template: `

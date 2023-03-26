@@ -32,7 +32,7 @@ class MenuItemDirective {
 }
 
 @Component({
-  selector: 'a11y-horizontal-nav-menu',
+  selector: 'ui-horizontal-nav-menu',
   standalone: true,
   imports: [CommonModule, RouterModule, MenuItemDirective],
   template: `

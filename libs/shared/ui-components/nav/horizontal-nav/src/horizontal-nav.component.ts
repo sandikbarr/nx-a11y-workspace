@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { HorizontalNavMenuComponent } from './horizontal-nav-menu/horizontal-nav-menu.component';
 import { RouterModule } from '@angular/router';
-import { NavItem, isMultipleNavItemsGroups } from '../../nav.model';
+import { NavItem } from '../../nav.model';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -31,7 +31,7 @@ class HorizontalNavButtonLinkDirective {
 }
 
 @Component({
-  selector: 'a11y-horizontal-nav',
+  selector: 'ui-horizontal-nav',
   standalone: true,
   imports: [
     CommonModule,
@@ -42,7 +42,7 @@ class HorizontalNavButtonLinkDirective {
   ],
   template: `
     <nav [attr.aria-label]="ariaLabel || 'Central'">
-      <ul class="disclosure-nav">
+      <ul>
         <li
           *ngFor="let nav of navMenuItems; let i = index"
           routerLinkActive="active"
@@ -55,8 +55,6 @@ class HorizontalNavButtonLinkDirective {
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             [routerLinkActiveOptions]="{ exact: true }"
-            cdkOverlayOrigin
-            #trigger="cdkOverlayOrigin"
             (keydown)="onNavLinkKey($event, i)"
             (click)="onNavLinkClick()"
             >{{ nav.label }}</a
@@ -84,13 +82,13 @@ class HorizontalNavButtonLinkDirective {
               [cdkConnectedOverlayOpen]="isMenuExpanded(i)"
               (overlayOutsideClick)="overlayClicked($event, i)"
             >
-              <a11y-horizontal-nav-menu
+              <ui-horizontal-nav-menu
                 [id]="nav.id"
                 [expanded]="isMenuExpanded(i)"
                 [items]="nav.items"
                 (focusMenuButton)="focusMenuButton(i)"
                 (closeMenu)="closeMenu(i)"
-              ></a11y-horizontal-nav-menu>
+              ></ui-horizontal-nav-menu>
             </ng-template>
           </ng-template>
         </li>

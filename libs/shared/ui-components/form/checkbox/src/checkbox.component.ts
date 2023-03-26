@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'a11y-checkbox',
+  selector: 'ui-checkbox',
   standalone: true,
   imports: [CommonModule],
   template: `

@@ -16,7 +16,7 @@ import {
 } from '@a11y/ui-components/expansion-menu';
 
 @Component({
-  selector: 'a11y-popup-menu-container',
+  selector: 'ui-popup-menu-container',
   standalone: true,
   imports: [
     CommonModule,

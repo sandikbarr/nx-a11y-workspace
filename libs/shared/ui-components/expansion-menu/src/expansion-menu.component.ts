@@ -15,7 +15,7 @@ import { FocusKeyManager } from '@angular/cdk/a11y';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'a11y-expansion-menu',
+  selector: 'ui-expansion-menu',
   standalone: true,
   imports: [CommonModule],
   template: `

@@ -5,7 +5,7 @@ import { InputComponent } from './input.component';
 describe('InputComponent', () => {
   async function setup({labelText}: {labelText?: string}) {
     // render projected content into component using template
-    await render(`<a11y-input>${labelText}</a11y-input>`, {
+    await render(`<ui-input>${labelText}</ui-input>`, {
       imports: [InputComponent],
     });
 

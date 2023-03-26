@@ -11,7 +11,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[a11y-expansion-menu-item]',
+  selector: '[ui-expansion-menu-item]',
   standalone: true,
   imports: [CommonModule, OverlayModule],
   template: `<ng-content></ng-content>`,

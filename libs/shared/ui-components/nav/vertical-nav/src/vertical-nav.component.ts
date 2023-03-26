@@ -8,7 +8,7 @@ import {
 } from '@a11y/ui-components/expansion-menu';
 
 @Component({
-  selector: 'a11y-vertical-nav',
+  selector: 'ui-vertical-nav',
   standalone: true,
   imports: [
     CommonModule,
@@ -28,19 +28,19 @@ import {
         >
           {{ menu.label }}
         </button>
-        <a11y-expansion-menu
+        <ui-expansion-menu
           [id]="menu.id"
           [expanded]="isMenuExpanded(menu.id)"
         >
           <!-- TODO: routerLinkActive, set button routerLink active also -->
           <a
-            a11y-expansion-menu-item
+            ui-expansion-menu-item
             *ngFor="let item of singleNavItemsGroup(menu.items)"
             [routerLink]="item.routerLink"
           >
             {{ item.label }}
           </a>
-        </a11y-expansion-menu>
+        </ui-expansion-menu>
       </div>
     </nav>
   `,
