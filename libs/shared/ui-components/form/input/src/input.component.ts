@@ -9,11 +9,10 @@ let uniqueIdCounter = 0;
   imports: [CommonModule],
   template: `
     <label ui-label [for]="id"><ng-content></ng-content></label>
-    <input [id]="id" type="text">
+    <input [id]="id" type="text" />
   `,
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputComponent {
   id = uniqueIdCounter++;

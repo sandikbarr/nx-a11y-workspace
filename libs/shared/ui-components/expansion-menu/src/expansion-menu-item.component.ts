@@ -19,7 +19,9 @@ import { OverlayModule } from '@angular/cdk/overlay';
     `
       :host {
         display: block;
+        max-width: max-content;
         margin-bottom: 0.5rem;
+        padding: 2px;
       }
     `,
   ],

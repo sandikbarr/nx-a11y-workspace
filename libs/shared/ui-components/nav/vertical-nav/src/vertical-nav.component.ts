@@ -7,6 +7,8 @@ import {
   ExpansionMenuItemComponent,
 } from '@a11y/ui-components/expansion-menu';
 
+let id = 0;
+
 @Component({
   selector: 'ui-vertical-nav',
   standalone: true,
@@ -17,8 +19,18 @@ import {
     ExpansionMenuItemComponent,
   ],
   template: `
-    <nav [attr.aria-label]="label || 'Subordinate'">
-      <div *ngFor="let menu of menus">
+    <nav
+      [attr.aria-label]="ariaLabel || 'Subordinate'"
+      [attr.aria-labelledby]="title && id"
+    >
+      <div *ngIf="title" class="title">
+        <a [attr.id]="id" [routerLink]="baseHref">{{ title }}</a>
+      </div>
+      <div
+        *ngFor="let menu of menus"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: false }"
+      >
         <button
           type="button"
           [attr.aria-expanded]="isMenuExpanded(menu.id)"
@@ -28,15 +40,14 @@ import {
         >
           {{ menu.label }}
         </button>
-        <ui-expansion-menu
-          [id]="menu.id"
-          [expanded]="isMenuExpanded(menu.id)"
-        >
-          <!-- TODO: routerLinkActive, set button routerLink active also -->
+        <ui-expansion-menu [id]="menu.id" [expanded]="isMenuExpanded(menu.id)">
           <a
             ui-expansion-menu-item
             *ngFor="let item of singleNavItemsGroup(menu.items)"
             [routerLink]="item.routerLink"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            [routerLinkActiveOptions]="{ exact: true }"
           >
             {{ item.label }}
           </a>
@@ -48,6 +59,16 @@ import {
     `
       nav {
         background-color: #f0f0f0;
+        white-space: nowrap;
+      }
+      div.title {
+        margin-top: 1rem;
+        padding: 1rem 0.5rem;
+      }
+      div.title a {
+        font-size: 1.2rem;
+        text-decoration: bold;
+        padding: 2px;
       }
 
       button {
@@ -56,6 +77,13 @@ import {
         background-color: transparent;
         font-size: 1rem;
       }
+      div.active {
+        background-color: #d0d0d0;
+      }
+      div.active > button,
+      a.active {
+        font-weight: bold;
+      }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -63,7 +91,10 @@ import {
 export class SecondaryNavComponent {
   @Input() menus?: NavItem[];
   @Input() expandedMenuIds: string[] = [];
-  @Input() label!: string;
+  @Input() ariaLabel?: string;
+  @Input() title?: string;
+  @Input() baseHref?: string;
+  id = id++;
 
   toggleMenuExpanded(menuId: string) {
     const isMenuExpandedIndex = this.expandedMenuIds.indexOf(menuId);

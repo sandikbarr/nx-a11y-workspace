@@ -7,13 +7,12 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <label>
-      <input type="checkbox" [checked]="isChecked">
+      <input type="checkbox" [checked]="isChecked" />
       {{ label }}
     </label>
   `,
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckboxComponent {
   @Input() isChecked?: boolean;

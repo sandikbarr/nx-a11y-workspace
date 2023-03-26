@@ -100,12 +100,15 @@ class HorizontalNavButtonLinkDirective {
       ul {
         list-style: none;
         display: flex;
+        align-items: center;
         margin: 0;
         padding: 0;
+        border: solid black 1px;
         background-color: #f0f0f0;
       }
       li {
         padding: 0.5rem 1rem;
+        line-height: 1.5rem;
       }
       li:not(:first-child) {
         border-left: solid black 1px;
@@ -117,8 +120,8 @@ class HorizontalNavButtonLinkDirective {
       a,
       button {
         font-size: 1rem;
-        line-height: 1.5rem;
         font-family: inherit;
+        padding: 2px;
       }
       a {
         text-decoration: none;
@@ -126,7 +129,6 @@ class HorizontalNavButtonLinkDirective {
       }
       button {
         border: none;
-        padding: 0;
         background: none;
       }
     `,

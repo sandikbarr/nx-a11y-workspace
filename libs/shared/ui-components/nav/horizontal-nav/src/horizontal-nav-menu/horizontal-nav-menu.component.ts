@@ -88,6 +88,8 @@ class MenuItemDirective {
         position: absolute;
         list-style: none;
         background-color: #f0f0f0;
+        border: 1px solid #d0d0d0;
+        box-shadow: 1px 1px 2px #d0d0d0;
         padding: 0;
         margin: 0;
         top: 0.5rem;
@@ -115,7 +117,7 @@ class MenuItemDirective {
         text-decoration: none;
         color: inherit;
         display: block;
-        width: 100%;
+        width: calc(100% - 2rem);
         padding: 0.5rem 1rem;
       }
       a.active {

@@ -16,15 +16,22 @@ import { CommonModule } from '@angular/common';
   ],
   selector: 'a11y-root',
   template: `
-    <a11y-horizontal-nav [navMenuItems]="navMenuItems"></a11y-horizontal-nav>
+    <header>
+      <a routerLink="/"><img width="80px" src="favicon.ico" alt="Home" /></a>
+      <ui-horizontal-nav [navMenuItems]="navMenuItems"></ui-horizontal-nav>
+      <div [style.width.px]="80"></div>
+    </header>
+
     <div
       class="content"
       *ngIf="angularRoutedVerticalNav$ | async as menu; else main"
     >
-      <a11y-vertical-nav
+      <ui-vertical-nav
+        [title]="menu.title"
+        [baseHref]="menu.baseHref"
         [menus]="menu.navItems"
         [expandedMenuIds]="menu.expandedMenuIds"
-      ></a11y-vertical-nav>
+      ></ui-vertical-nav>
       <ng-container *ngTemplateOutlet="main"></ng-container>
     </div>
     <ng-template #main>
@@ -35,6 +42,11 @@ import { CommonModule } from '@angular/common';
   `,
   styles: [
     `
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
       .content {
         min-height: calc(100vh - 5.5rem);
         display: grid;
@@ -172,6 +184,8 @@ export class AppComponent {
     map((event: NavigationEnd) => {
       return event.url.indexOf('angular-eslint') > -1
         ? {
+            title: 'Angular ESLint Rules:',
+            baseHref: '/angular-eslint',
             navItems: this.angularEslintNavMenus,
             expandedMenuIds: this.angularEslintNavMenus.map((nav) => nav.id),
           }
@@ -181,11 +195,6 @@ export class AppComponent {
   );
 
   navMenuItems: NavItem[] = [
-    {
-      id: 'home',
-      label: 'Home',
-      routerLink: ['/'],
-    },
     {
       id: 'out-of-the-box',
       label: 'Angular Built-in Accessibility',
