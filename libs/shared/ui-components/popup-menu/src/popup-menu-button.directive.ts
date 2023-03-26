@@ -1,9 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { Directive, ElementRef, HostBinding, Input } from '@angular/core';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector

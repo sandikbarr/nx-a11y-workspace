@@ -55,7 +55,8 @@ export class ExpansionMenuComponent implements AfterContentInit {
   }
 
   @HostBinding('attr.id')
-  @Input() id!: string;
+  @Input()
+  id!: string;
 
   isExpanded = false;
   @Input()
