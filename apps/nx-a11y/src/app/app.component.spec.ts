@@ -1,6 +1,7 @@
 import { screen, render } from '@testing-library/angular';
-import { AppComponent } from './app.component';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   async function setup() {
@@ -8,7 +9,7 @@ describe('AppComponent', () => {
       imports: [RouterTestingModule],
     });
 
-    return { };
+    return {};
   }
 
   it('should create the app', async () => {

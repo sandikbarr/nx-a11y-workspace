@@ -1,122 +1,245 @@
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
-import { NavItem, PrimaryNavComponent } from '@a11y/ui-components/primary-nav';
+import { NavItem } from '@a11y/ui-components/nav';
+import { HorizontalNavComponent } from '@a11y/ui-components/nav/horizontal-nav';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { SecondaryNavComponent } from '@a11y/ui-components/nav/vertical-nav';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, PrimaryNavComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    HorizontalNavComponent,
+    SecondaryNavComponent,
+  ],
   selector: 'a11y-root',
   template: `
-    <a11y-primary-nav [navMenuItems]="navMenuItems"></a11y-primary-nav>
-    <main>
-      <router-outlet></router-outlet>
-    </main>
+    <header>
+      <a routerLink="/"><img width="80px" src="favicon.ico" alt="Home" /></a>
+      <ui-horizontal-nav [navMenuItems]="navMenuItems"></ui-horizontal-nav>
+      <div [style.width.px]="80"></div>
+    </header>
+
+    <div
+      class="content"
+      *ngIf="angularRoutedVerticalNav$ | async as menu; else main"
+    >
+      <ui-vertical-nav
+        [title]="menu.title"
+        [baseHref]="menu.baseHref"
+        [menus]="menu.navItems"
+        [expandedMenuIds]="menu.expandedMenuIds"
+      ></ui-vertical-nav>
+      <ng-container *ngTemplateOutlet="main"></ng-container>
+    </div>
+    <ng-template #main>
+      <main>
+        <router-outlet></router-outlet>
+      </main>
+    </ng-template>
   `,
   styles: [
     `
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .content {
+        min-height: calc(100vh - 5.5rem);
+        display: grid;
+        grid-template-columns: min-content 2fr;
+        grid-gap: 0.5rem;
+      }
       main {
         margin: 1.5rem;
-        min-height: calc(100vh - 5.5rem);
       }
     `,
   ],
 })
 export class AppComponent {
+  angularEslintNavMenus: NavItem[] = [
+    {
+      id: 'keyboard-cdk',
+      label: 'Keyboard Navigation',
+      routerLink: ['/angular-eslint', 'keyboard'],
+      items: [
+        // Keyboard Navigation
+        {
+          id: 'angular-eslint/no-positive-tabindex',
+          label: 'no-positive-tabindex',
+          routerLink: ['/angular-eslint', 'keyboard', 'no-positive-tabindex'],
+        },
+        {
+          id: 'angular-eslint/no-autofocus',
+          label: 'no-autofocus',
+          routerLink: ['/angular-eslint', 'keyboard', 'no-autofocus'],
+        },
+        {
+          id: 'angular-eslint/mouse-events-have-key-events',
+          label: 'mouse-events-have-key-events',
+          routerLink: [
+            '/angular-eslint',
+            'keyboard',
+            'mouse-events-have-key-events',
+          ],
+        },
+        {
+          id: 'angular-eslint/click-events-have-key-events',
+          label: 'click-events-have-key-events',
+          routerLink: [
+            '/angular-eslint',
+            'keyboard',
+            'click-events-have-key-events',
+          ],
+        },
+        {
+          id: 'angular-eslint/accessibility-interactive-supports-focus',
+          label: 'accessibility-interactive-supports-focus',
+          routerLink: [
+            '/angular-eslint',
+            'keyboard',
+            'accessibility-interactive-supports-focus',
+          ],
+        },
+      ],
+    },
+    {
+      // ARIA
+      id: 'aria',
+      label: 'ARIA Roles and Attributes',
+      routerLink: ['/angular-eslint', 'aria'],
+      items: [
+        {
+          id: 'angular-eslint/accessibility-valid-aria',
+          label: 'accessibility-valid-aria',
+          routerLink: ['/angular-eslint', 'aria', 'accessibility-valid-aria'],
+        },
+        {
+          id: 'angular-eslint/accessibility-role-has-required-aria',
+          label: 'accessibility-role-has-required-aria',
+          routerLink: [
+            '/angular-eslint',
+            'aria',
+            'accessibility-role-has-required-aria',
+          ],
+        },
+      ],
+    },
+    {
+      id: 'content',
+      label: 'Content and Relationships',
+      routerLink: ['/angular-eslint', 'content'],
+      // CONTENT AND RELATIONSHIPS
+      items: [
+        {
+          id: 'angular-eslint/accessibility-alt-text',
+          label: 'accessibility-alt-text',
+          routerLink: ['/angular-eslint', 'content', 'accessibility-alt-text'],
+        },
+        {
+          id: 'angular-eslint/accessibility-elements-content',
+          label: 'accessibility-elements-content',
+          routerLink: [
+            '/angular-eslint',
+            'content',
+            'accessibility-elements-content',
+          ],
+        },
+        {
+          id: 'angular-eslint/accessibility-label-has-associated-control',
+          label: 'accessibility-label-has-associated-control',
+          routerLink: [
+            '/angular-eslint',
+            'content',
+            'accessibility-label-has-associated-control',
+          ],
+        },
+        {
+          id: 'angular-eslint/accessibility-table-scope',
+          label: 'accessibility-table-scope',
+          routerLink: [
+            '/angular-eslint',
+            'content',
+            'accessibility-table-scope',
+          ],
+        },
+        {
+          id: 'angular-eslint/no-distracting-elements',
+          label: 'no-distracting-elements',
+          routerLink: ['/angular-eslint', 'content', 'no-distracting-elements'],
+        },
+        {
+          id: 'angular-eslint/button-has-type',
+          label: 'button-has-type',
+          routerLink: ['/angular-eslint', 'content', 'button-has-type'],
+        },
+      ],
+    },
+  ];
+  angularRoutedVerticalNav$ = this.router.events.pipe(
+    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+    map((event: NavigationEnd) => {
+      return event.url.indexOf('angular-eslint') > -1
+        ? {
+            title: 'Angular ESLint Rules:',
+            baseHref: '/angular-eslint',
+            navItems: this.angularEslintNavMenus,
+            expandedMenuIds: this.angularEslintNavMenus.map((nav) => nav.id),
+          }
+        : undefined;
+    }),
+    distinctUntilChanged()
+  );
+
   navMenuItems: NavItem[] = [
     {
-      id: 'home',
-      label: 'Home',
-      routerLink: ['/'],
+      id: 'out-of-the-box',
+      label: 'Angular Built-in Accessibility',
+      routerLink: ['/out-of-the-box'],
+      items: [
+        // Material CDK
+        [
+          {
+            id: 'list-key-manager',
+            label: 'ListKeyManager',
+            routerLink: ['/out-of-the-box', 'cdk', 'list-key-manager'],
+          },
+          {
+            id: 'focus-trap',
+            label: 'FocusTrap',
+            routerLink: ['/out-of-the-box', 'cdk', 'focus-trap'],
+          },
+          {
+            id: 'live-announcer',
+            label: 'LiveAnnouncer',
+            routerLink: ['/out-of-the-box', 'cdk', 'live-announcer'],
+          },
+        ],
+        // Active Links
+        [
+          {
+            id: 'router-link-active',
+            label: 'routerLinkActive',
+            routerLink: ['/out-of-the-box', 'router-link-active'],
+          },
+        ],
+        // Page TitleStrategy
+        [
+          {
+            id: 'page-title-strategy',
+            label: 'Page TitleStrategy',
+            routerLink: ['/out-of-the-box', 'page-title-strategy'],
+          },
+        ],
+      ],
     },
     {
       id: 'angular-eslint',
       label: 'Angular ESLint',
       routerLink: ['/angular-eslint'],
-      items: [
-        // Keyboard Navigation
-        [
-          {
-            id: 'angular-eslint/no-positive-tabindex',
-            label: 'no-positive-tabindex',
-            routerLink: ['/angular-eslint', 'no-positive-tabindex'],
-          },
-          {
-            id: 'angular-eslint/no-autofocus',
-            label: 'no-autofocus',
-            routerLink: ['/angular-eslint', 'no-autofocus'],
-          },
-          {
-            id: 'angular-eslint/mouse-events-have-key-events',
-            label: 'mouse-events-have-key-events',
-            routerLink: ['/angular-eslint', 'mouse-events-have-key-events'],
-          },
-          {
-            id: 'angular-eslint/click-events-have-key-events',
-            label: 'click-events-have-key-events',
-            routerLink: ['/angular-eslint', 'click-events-have-key-events'],
-          },
-          {
-            id: 'angular-eslint/accessibility-interactive-supports-focus',
-            label: 'accessibility-interactive-supports-focus',
-            routerLink: [
-              '/angular-eslint',
-              'accessibility-interactive-supports-focus',
-            ],
-          },
-        ],
-        // ARIA
-        [
-          {
-            id: 'angular-eslint/accessibility-valid-aria',
-            label: 'accessibility-valid-aria',
-            routerLink: ['/angular-eslint', 'accessibility-valid-aria'],
-          },
-          {
-            id: 'angular-eslint/accessibility-role-has-required-aria',
-            label: 'accessibility-role-has-required-aria',
-            routerLink: [
-              '/angular-eslint',
-              'accessibility-role-has-required-aria',
-            ],
-          },
-        ],
-        // CONTENT AND RELATIONSHIPS
-        [
-          {
-            id: 'angular-eslint/accessibility-alt-text',
-            label: 'accessibility-alt-text',
-            routerLink: ['/angular-eslint', 'accessibility-alt-text'],
-          },
-          {
-            id: 'angular-eslint/accessibility-elements-content',
-            label: 'accessibility-elements-content',
-            routerLink: ['/angular-eslint', 'accessibility-elements-content'],
-          },
-          {
-            id: 'angular-eslint/accessibility-label-has-associated-control',
-            label: 'accessibility-label-has-associated-control',
-            routerLink: [
-              '/angular-eslint',
-              'accessibility-label-has-associated-control',
-            ],
-          },
-          {
-            id: 'angular-eslint/accessibility-table-scope',
-            label: 'accessibility-table-scope',
-            routerLink: ['/angular-eslint', 'accessibility-table-scope'],
-          },
-          {
-            id: 'angular-eslint/no-distracting-elements',
-            label: 'no-distracting-elements',
-            routerLink: ['/angular-eslint', 'no-distracting-elements'],
-          },
-          {
-            id: 'angular-eslint/button-has-type',
-            label: 'button-has-type',
-            routerLink: ['/angular-eslint', 'button-has-type'],
-          },
-        ],
-      ],
     },
     {
       id: 'testing-library',
@@ -176,4 +299,6 @@ export class AppComponent {
       ],
     },
   ];
+
+  constructor(private readonly router: Router) {}
 }

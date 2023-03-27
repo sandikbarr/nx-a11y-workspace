@@ -2,7 +2,7 @@ import 'cypress-axe';
 
 describe('demo-pages/angular-eslint/accessibility-alt-text', () => {
   before(() => {
-    cy.visit('/angular-eslint/accessibility-alt-text');
+    cy.visit('/angular-eslint/content/accessibility-alt-text');
     cy.injectAxe();
   });
 

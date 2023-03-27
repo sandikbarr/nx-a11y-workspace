@@ -8,6 +8,13 @@ export const appRoutes: Route[] = [
     component: HomeComponent,
   },
   {
+    path: 'out-of-the-box',
+    loadChildren: () =>
+      import('@nx-a11y-workspace/nx-a11y-demo/out-of-the-box').then(
+        (module) => module.outOfTheBoxRoutes
+      ),
+  },
+  {
     path: 'angular-eslint',
     loadChildren: () =>
       import('@nx-a11y-workspace/nx-a11y-demo/angular-eslint').then(

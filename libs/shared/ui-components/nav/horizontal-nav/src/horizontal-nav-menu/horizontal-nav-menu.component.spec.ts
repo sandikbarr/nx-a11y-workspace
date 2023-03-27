@@ -1,10 +1,10 @@
 import { screen, render } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { NavItem } from '../primary-nav.component';
-import { PrimaryNavMenuComponent } from './primary-nav-menu.component';
+import { NavItem } from '../../../nav.model';
+import { HorizontalNavMenuComponent } from './horizontal-nav-menu.component';
 
-describe('PrimaryNavMenuComponent', () => {
+describe('HorizontalNavMenuComponent', () => {
   async function setup({
     id,
     expanded,
@@ -14,7 +14,7 @@ describe('PrimaryNavMenuComponent', () => {
     expanded?: boolean;
     items: NavItem[] | NavItem[][];
   }) {
-    await render(PrimaryNavMenuComponent, {
+    await render(HorizontalNavMenuComponent, {
       componentProperties: { id, expanded, items },
     });
 

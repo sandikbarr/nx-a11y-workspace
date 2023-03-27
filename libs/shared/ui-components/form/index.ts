@@ -1,1 +1,1 @@
-export const greeting = 'Hello World!';
+export const a11yForm = 'a11yForm';

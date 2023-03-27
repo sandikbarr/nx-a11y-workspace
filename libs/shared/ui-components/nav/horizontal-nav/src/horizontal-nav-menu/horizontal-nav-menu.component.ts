@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NavItem, isNavItemsGrouped } from '../primary-nav.component';
+import { NavItem, isMultipleNavItemsGroups } from '../../../nav.model';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -32,7 +32,7 @@ class MenuItemDirective {
 }
 
 @Component({
-  selector: 'a11y-primary-nav-menu',
+  selector: 'ui-horizontal-nav-menu',
   standalone: true,
   imports: [CommonModule, RouterModule, MenuItemDirective],
   template: `
@@ -88,6 +88,8 @@ class MenuItemDirective {
         position: absolute;
         list-style: none;
         background-color: #f0f0f0;
+        border: 1px solid #d0d0d0;
+        box-shadow: 1px 1px 2px #d0d0d0;
         padding: 0;
         margin: 0;
         top: 0.5rem;
@@ -115,7 +117,7 @@ class MenuItemDirective {
         text-decoration: none;
         color: inherit;
         display: block;
-        width: 100%;
+        width: calc(100% - 2rem);
         padding: 0.5rem 1rem;
       }
       a.active {
@@ -125,7 +127,7 @@ class MenuItemDirective {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PrimaryNavMenuComponent {
+export class HorizontalNavMenuComponent {
   @Input() id?: string;
   @Input() expanded?: boolean;
   @Input() items?: NavItem[] | NavItem[][];
@@ -148,7 +150,7 @@ export class PrimaryNavMenuComponent {
     itemIndex: number
   ) {
     let index = itemIndex;
-    if (groupIndex && isNavItemsGrouped(this.items)) {
+    if (groupIndex && isMultipleNavItemsGroups(this.items)) {
       index = this.items
         .slice(0, groupIndex)
         .reduce((acc, group) => (acc += group.length), itemIndex);
@@ -196,7 +198,7 @@ export class PrimaryNavMenuComponent {
   }
 
   isItemsGrouped(): boolean {
-    return isNavItemsGrouped(this.items);
+    return isMultipleNavItemsGroups(this.items);
   }
 
   get itemsAsGroups(): NavItem[][] | undefined {

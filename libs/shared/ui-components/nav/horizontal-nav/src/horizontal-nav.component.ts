@@ -9,28 +9,16 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { PrimaryNavMenuComponent } from './primary-nav-menu/primary-nav-menu.component';
+import { HorizontalNavMenuComponent } from './horizontal-nav-menu/horizontal-nav-menu.component';
 import { RouterModule } from '@angular/router';
-
-export interface NavItem {
-  id: string;
-  label: string;
-  routerLink?: string[];
-  items?: NavItem[] | NavItem[][];
-}
-
-export function isNavItemsGrouped(
-  items?: NavItem[] | NavItem[][]
-): items is NavItem[][] {
-  return !!items?.length && Array.isArray(items[0]);
-}
+import { NavItem } from '../../nav.model';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: 'a[primary-nav], button[primary-nav]',
+  selector: 'a[horizontal-nav], button[horizontal-nav]',
   standalone: true,
 })
-class PrimaryNavButtonLinkDirective {
+class HorizontalNavButtonLinkDirective {
   constructor(private readonly el: ElementRef) {}
 
   focus() {
@@ -43,40 +31,38 @@ class PrimaryNavButtonLinkDirective {
 }
 
 @Component({
-  selector: 'a11y-primary-nav',
+  selector: 'ui-horizontal-nav',
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
     OverlayModule,
-    PrimaryNavMenuComponent,
-    PrimaryNavButtonLinkDirective,
+    HorizontalNavMenuComponent,
+    HorizontalNavButtonLinkDirective,
   ],
   template: `
-    <nav [attr.aria-label]="ariaLabel || 'Primary'">
-      <ul class="disclosure-nav">
+    <nav [attr.aria-label]="ariaLabel || 'Central'">
+      <ul>
         <li
           *ngFor="let nav of navMenuItems; let i = index"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: !nav.items?.length }"
         >
           <a
-            primary-nav
+            horizontal-nav
             *ngIf="!nav.items?.length; else menu"
             [routerLink]="nav.routerLink"
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             [routerLinkActiveOptions]="{ exact: true }"
-            cdkOverlayOrigin
-            #trigger="cdkOverlayOrigin"
-            (keydown)="onPrimaryLinkKey($event, i)"
-            (click)="onPrimaryLinkClick()"
+            (keydown)="onNavLinkKey($event, i)"
+            (click)="onNavLinkClick()"
             >{{ nav.label }}</a
           >
 
           <ng-template #menu>
             <button
-              primary-nav
+              horizontal-nav
               type="button"
               [attr.aria-expanded]="isMenuExpanded(i)"
               [attr.aria-haspopup]="'menu'"
@@ -96,13 +82,13 @@ class PrimaryNavButtonLinkDirective {
               [cdkConnectedOverlayOpen]="isMenuExpanded(i)"
               (overlayOutsideClick)="overlayClicked($event, i)"
             >
-              <a11y-primary-nav-menu
+              <ui-horizontal-nav-menu
                 [id]="nav.id"
                 [expanded]="isMenuExpanded(i)"
                 [items]="nav.items"
                 (focusMenuButton)="focusMenuButton(i)"
                 (closeMenu)="closeMenu(i)"
-              ></a11y-primary-nav-menu>
+              ></ui-horizontal-nav-menu>
             </ng-template>
           </ng-template>
         </li>
@@ -114,12 +100,15 @@ class PrimaryNavButtonLinkDirective {
       ul {
         list-style: none;
         display: flex;
+        align-items: center;
         margin: 0;
         padding: 0;
+        border: solid black 1px;
         background-color: #f0f0f0;
       }
       li {
         padding: 0.5rem 1rem;
+        line-height: 1.5rem;
       }
       li:not(:first-child) {
         border-left: solid black 1px;
@@ -131,8 +120,8 @@ class PrimaryNavButtonLinkDirective {
       a,
       button {
         font-size: 1rem;
-        line-height: 1.5rem;
         font-family: inherit;
+        padding: 2px;
       }
       a {
         text-decoration: none;
@@ -140,20 +129,19 @@ class PrimaryNavButtonLinkDirective {
       }
       button {
         border: none;
-        padding: 0;
         background: none;
       }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PrimaryNavComponent {
+export class HorizontalNavComponent {
   @Input('aria-label') ariaLabel?: string;
   @Input() navMenuItems: NavItem[] = [];
-  @ViewChildren(PrimaryNavButtonLinkDirective)
-  navButtonLinks?: QueryList<PrimaryNavButtonLinkDirective>;
-  @ViewChildren(PrimaryNavMenuComponent)
-  navMenus?: QueryList<PrimaryNavMenuComponent>;
+  @ViewChildren(HorizontalNavButtonLinkDirective)
+  navButtonLinks?: QueryList<HorizontalNavButtonLinkDirective>;
+  @ViewChildren(HorizontalNavMenuComponent)
+  navMenus?: QueryList<HorizontalNavMenuComponent>;
   expandedMenuIndex = -1;
 
   // for menu button, click event on <button> is also executed on keydown Enter and Space
@@ -181,7 +169,7 @@ export class PrimaryNavComponent {
         ?.focusFirstLink();
     }
 
-    // handle arrow key navigation between primary menu items
+    // handle arrow key navigation between nav menu items
     else {
       this.controlFocusByKey(event, index);
     }
@@ -194,11 +182,11 @@ export class PrimaryNavComponent {
     return this.expandedMenuIndex === index;
   }
 
-  onPrimaryLinkClick() {
+  onNavLinkClick() {
     // link navigates, but click event also closes sub menu if open
     this.setExpandedMenu(-1);
   }
-  onPrimaryLinkKey(event: KeyboardEvent, index: number) {
+  onNavLinkKey(event: KeyboardEvent, index: number) {
     if (event.key === ' ') {
       // add support for Space key to click on <a>
       this.navButtonLinks?.get(index)?.click();
@@ -208,7 +196,7 @@ export class PrimaryNavComponent {
   }
 
   /**
-   * Moves focus through primary menu items
+   * Moves focus through nav menu items
    * @param event
    * @param index
    */
