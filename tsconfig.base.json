@@ -25,6 +25,9 @@
       "@a11y/ui-components/form/input": [
         "libs/shared/ui-components/form/input/index.ts"
       ],
+      "@a11y/ui-components/form/select": [
+        "libs/shared/ui-components/form/select/index.ts"
+      ],
       "@a11y/ui-components/nav": ["libs/shared/ui-components/nav/index.ts"],
       "@a11y/ui-components/nav/horizontal-nav": [
         "libs/shared/ui-components/nav/horizontal-nav.ts"
