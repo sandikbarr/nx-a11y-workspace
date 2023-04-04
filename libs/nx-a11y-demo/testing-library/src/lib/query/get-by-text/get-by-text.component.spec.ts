@@ -1,22 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { screen, render, fireEvent, waitFor } from '@testing-library/angular';
+import { Location } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
 
 import { GetByTextComponent } from './get-by-text.component';
 
 describe('GetByTextComponent', () => {
-  let component: GetByTextComponent;
-  let fixture: ComponentFixture<GetByTextComponent>;
+  async function setup() {
+    const { fixture } = await render(GetByTextComponent);
+    const location = TestBed.inject(Location);
+    return { component: fixture.componentInstance, location };
+  }
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [GetByTextComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(GetByTextComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('renders doc link', async () => {
+    const { component, location } = await setup();
+    const docLink = screen.getByRole('link', { name: component.name });
+    fireEvent.click(docLink);
+    waitFor(() => expect(location.path()).toBe(component.href));
   });
 });
