@@ -39,6 +39,8 @@ jobs:
       - run: npm ci
       - name: Build
         run: npx nx run nx-a11y:build:production --base-href https://sandikbarr.github.io/nx-a11y-workspace/
+      - name: Redirect
+        run: cp dist/apps/nx-a11y/index.html dist/apps/nx-a11y/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
